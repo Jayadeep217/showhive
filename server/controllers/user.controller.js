@@ -36,7 +36,7 @@ const loginUser = async (req, res) => {
     if (!user) {
       res.send({
         status: "error",
-        message: `No user found with email: ${email} !!`,
+        message: `No user found with email: ${email}. Please register!`,
       });
       return;
     }
