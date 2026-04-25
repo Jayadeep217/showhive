@@ -1,16 +1,17 @@
 import React from "react";
 import { Button, Form, Input, message } from "antd";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { login } from "../calls/auth.calls.js";
 
 function Login() {
+  const navigate = useNavigate();
   const onSubmit = async (values) => {
     try {
       const loginResponse = await login(values.email, values.password);
       if (loginResponse.status === "success") {
         message.success("Login successful!");
-      }
-      else {
+        navigate("/home");
+      } else {
         message.error(loginResponse.message || "Login failed!");
       }
     } catch (error) {
