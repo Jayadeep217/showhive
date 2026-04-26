@@ -1,5 +1,7 @@
 const User = require("../models/user.model.js");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const { authorize } = require("../middlewares/auth.middleware.js");
 
 const registerUser = async (req, res) => {
   try {
@@ -51,6 +53,14 @@ const loginUser = async (req, res) => {
       return;
     }
 
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+      expiresIn: process.env.JWT_EXPIRES_IN,
+    });
+
+    res.cookie("jwt_token", token, {
+      httpOnly: true,
+    });
+
     res.send({
       status: "success",
       message: "User logged in successfully!",
@@ -62,4 +72,27 @@ const loginUser = async (req, res) => {
   }
 };
 
-module.exports = { registerUser, loginUser };
+const getUser = async (req, res) => {
+  try {
+    const user = await User.findById(req.userId).select("-password");
+
+    if (!user) {
+      res.status(404).send({
+        status: "error",
+        message: "User not found!",
+      });
+      return;
+    }
+
+    res.send({
+      status: "success",
+      message: "User data retrieved successfully!",
+      data: user,
+    });
+  } catch (error) {
+    console.log(error);
+    throw new Error(error);
+  }
+};
+
+module.exports = { registerUser, loginUser, getUser };
