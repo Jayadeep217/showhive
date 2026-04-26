@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, Form, Input, message } from "antd";
 import { Link } from "react-router-dom";
-import { register } from "../calls/auth.calls.js";
+import { register } from "../api/auth.calls.js";
 
 function Register() {
   const onSubmit = async (values) => {

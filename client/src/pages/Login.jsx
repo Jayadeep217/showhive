@@ -1,16 +1,21 @@
 import React from "react";
 import { Button, Form, Input, message } from "antd";
 import { Link, useNavigate } from "react-router-dom";
-import { login } from "../calls/auth.calls.js";
+import { login } from "../api/auth.calls.js";
+import {useDispatch} from "react-redux";
+import { setUserData } from "../redux/userSlice.js";
 
 function Login() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const onSubmit = async (values) => {
     try {
       const loginResponse = await login(values.email, values.password);
       if (loginResponse.status === "success") {
         message.success("Login successful!");
-        navigate("/home");
+        dispatch(setUserData(loginResponse.data));
+        navigate("/home");        
       } else {
         message.error(loginResponse.message || "Login failed!");
       }
