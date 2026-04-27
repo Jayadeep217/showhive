@@ -1,5 +1,5 @@
 const express = require("express");
-const router = express.Router();
+const userRouter = express.Router();
 const {
   loginUser,
   registerUser,
@@ -7,8 +7,8 @@ const {
 } = require("../controllers/user.controller.js");
 const { authorize } = require("../middlewares/auth.middleware.js");
 
-router.post("/register", registerUser);
-router.post("/login", loginUser);
-router.get("/getuser", authorize, getUser);
+userRouter.post("/register", registerUser);
+userRouter.post("/login", loginUser);
+userRouter.get("/getuser", authorize, getUser);
 
-module.exports = router;
+module.exports = userRouter;

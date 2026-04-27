@@ -11,7 +11,7 @@ const registerUser = async (req, res) => {
     const password = await bcrypt.hash(req.body.password, 10);
 
     if (userExists) {
-      res.send({
+      res.status(400).json({
         status: "error",
         message: `User already exists with email: ${email} !!`,
       });
@@ -19,14 +19,18 @@ const registerUser = async (req, res) => {
     }
 
     const newUser = await User.create({ name, email, password });
-    res.send({
+    res.status(201).json({
       status: "success",
       message: "User registered successfully!",
       data: newUser,
     });
   } catch (error) {
     console.log(error);
-    throw new Error(error);
+    res.status(500).json({
+      status: "error",
+      message: "Error registering user",
+      error: error.message
+    });
   }
 };
 
@@ -36,7 +40,7 @@ const loginUser = async (req, res) => {
     const user = await User.findOne({ email });
 
     if (!user) {
-      res.send({
+      res.status(404).json({
         status: "error",
         message: `No user found with email: ${email}. Please register!`,
       });
@@ -46,7 +50,7 @@ const loginUser = async (req, res) => {
     const isPasswordValid = await bcrypt.compare(password, user.password);
 
     if (!isPasswordValid) {
-      res.send({
+      res.status(400).json({
         status: "error",
         message: "Invalid password!",
       });
@@ -61,14 +65,18 @@ const loginUser = async (req, res) => {
       httpOnly: true,
     });
 
-    res.send({
+    res.status(200).json({
       status: "success",
       message: "User logged in successfully!",
       data: user,
     });
   } catch (error) {
     console.log(error);
-    throw new Error(error);
+    res.status(500).json({
+      status: "error",
+      message: "Error logging in user",
+      error: error.message
+    });
   }
 };
 
@@ -77,21 +85,25 @@ const getUser = async (req, res) => {
     const user = await User.findById(req.userId).select("-password");
 
     if (!user) {
-      res.status(404).send({
+      res.status(404).json({
         status: "error",
         message: "User not found!",
       });
       return;
     }
 
-    res.send({
+    res.status(200).json({
       status: "success",
       message: "User data retrieved successfully!",
       data: user,
     });
   } catch (error) {
     console.log(error);
-    throw new Error(error);
+    res.status(500).json({
+      status: "error",
+      message: "Error retrieving user data",
+      error: error.message
+    });
   }
 };
 
