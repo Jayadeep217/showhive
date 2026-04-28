@@ -9,7 +9,6 @@ const { Header } = Layout;
 const { Text } = Typography;
 
 function Navbar({ userData, onSearch, onLogout }) {
-
   const displayName = userData?.name || "Guest";
 
   return (

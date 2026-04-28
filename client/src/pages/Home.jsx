@@ -28,8 +28,6 @@ function Home() {
     const fetchMovies = async () => {
       try {
         const moviesData = await getAllMovies();
-        console.log(moviesData);
-        
         setMovies(moviesData.movies);
       } catch (error) {
         console.error("Error fetching movies:", error);
@@ -38,7 +36,7 @@ function Home() {
 
     fetchUser();
     fetchMovies();
-  }, []);
+  });
 
   const onSearch = (value) => {
     console.log("Search:", value);
@@ -53,7 +51,14 @@ function Home() {
   return (
     <>
       <Navbar userData={userData} onSearch={onSearch} onLogout={onLogout} />
-      <div style={{ display: "flex", flexWrap: "wrap", gap: "20px", padding: "20px" }}>
+      <div
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          gap: "20px",
+          padding: "20px",
+        }}
+      >
         {movies.map((movieObj) => (
           <MovieCard
             key={movieObj._id || movieObj.id}

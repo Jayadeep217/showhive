@@ -22,7 +22,6 @@ function MovieCard({ title, posterUrl, rating, genre, language }) {
       </Title>
 
       <div style={{ marginBottom: 8 }}>
-       
         <Text strong>{rating}/10</Text>
       </div>
 
