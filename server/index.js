@@ -3,7 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 
-const { formattedDateTime } = require("./utils/date.utils.js");
+const { formatLocalTimestamp } = require("./utils/date.utils.js");
 const { dbConnection } = require("./config/db");
 const userRoutes = require("./routes/user.routes.js");
 const movieRoutes = require("./routes/movie.routes.js");
@@ -30,7 +30,7 @@ function serverPortInitialization(port) {
   const server = app.listen(port);
 
   server.on("listening", () => {
-    console.log(`${formatLocalTimestamp()} ✅ server listening on -> ${port}`);
+    console.log(`${formatLocalTimestamp()} | ✅ server listening on -> ${port}`);
   });
 
   server.on("error", (error) => {

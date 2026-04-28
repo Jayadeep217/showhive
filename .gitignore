@@ -1,3 +1,7 @@
+#custom
+showhive.movies.json
+showhive.users.json
+
 # Logs
 logs
 *.log

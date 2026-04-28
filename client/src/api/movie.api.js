@@ -6,3 +6,14 @@ const api = axios.create({
   withCredentials: true,
 });
 
+export const getAllMovies = async () => {
+  try {
+    const response = await api.get("/movies/all", {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Get all movies error:", error);
+    throw error;
+  }
+};

@@ -19,7 +19,7 @@ function formatLocalTimestamp(date = new Date(), options = {}) {
   const seconds = pad(get("Seconds"));
   const milliseconds = pad(get("Milliseconds"), 3);
 
-  return `${day}/${month}/${year}T${hours}:${minutes}:${seconds}.${milliseconds}`;
+  return `${year}/${month}/${day}T${hours}:${minutes}:${seconds}.${milliseconds}`;
 }
 
 module.exports = { formatLocalTimestamp };
