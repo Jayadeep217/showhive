@@ -1,8 +1,9 @@
 import React from "react";
 import { Button, Form, Input, message } from "antd";
 import { Link, useNavigate } from "react-router-dom";
-import { login } from "../api/auth.calls.js";
 import {useDispatch} from "react-redux";
+
+import { login } from "../api/auth.api.js";
 import { setUserData } from "../redux/userSlice.js";
 
 function Login() {

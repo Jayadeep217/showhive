@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getUser } from "../api/auth.calls.js";
+
+import { getUser } from "../api/auth.api.js";
 import { setUserData } from "../redux/userSlice.js";
 
 import { Layout, Input, Button, Avatar, Typography, Space } from "antd";
