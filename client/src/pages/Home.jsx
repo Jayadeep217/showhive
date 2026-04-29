@@ -18,8 +18,8 @@ function Home() {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const data = await getUser();
-        dispatch(setUserData(data.data));
+        const userData = await getUser();
+        dispatch(setUserData(userData.data || null));
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
@@ -43,8 +43,9 @@ function Home() {
   };
 
   const onLogout = () => {
-    localStorage.removeItem("token");
     dispatch(setUserData(null));
+    console.log(userData);
+    
     navigate("/login");
   };
 
