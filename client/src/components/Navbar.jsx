@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 import { Layout, Input, Button, Avatar, Typography, Space } from "antd";
 import {
   UserOutlined,
@@ -12,7 +14,7 @@ function Navbar({ userData, onSearch, onLogout }) {
   const displayName = userData?.name || "Guest";
 
   return (
-    <Layout>
+    <>
       <Header
         style={{
           background: "rgb(235, 78, 98)",
@@ -43,13 +45,13 @@ function Navbar({ userData, onSearch, onLogout }) {
 
         <Space>
           <Avatar icon={<UserOutlined />} />
-          <Text>{displayName}</Text>
+          <Link to="/admin">{displayName}</Link>
           <Button icon={<LogoutOutlined />} onClick={onLogout} type="default">
             Logout
           </Button>
         </Space>
       </Header>
-    </Layout>
+    </>
   );
 }
 

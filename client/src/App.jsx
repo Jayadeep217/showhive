@@ -5,6 +5,7 @@ import Register from "./pages/Register.jsx";
 import Home from "./pages/Home.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import PublicRoute from "./components/PublicRoute.jsx";
+import Admin from "./pages/Admin/";
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
               </PublicRoute>
             }
           />
+          <Route path="/admin" element={<Admin />} />
         </Routes>
       </BrowserRouter>
     </>

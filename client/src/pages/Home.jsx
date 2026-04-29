@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -10,7 +10,7 @@ import MovieCard from "../components/Moviecard.jsx";
 import { getAllMovies } from "../api/movie.api.js";
 
 function Home() {
-  const [movies, setMovies] = React.useState([]);
+  const [movies, setMovies] = useState([]);
   const userData = useSelector((state) => state.user.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -28,7 +28,7 @@ function Home() {
     const fetchMovies = async () => {
       try {
         const moviesData = await getAllMovies();
-        setMovies(moviesData.movies);
+        setMovies(moviesData.movies || []);
       } catch (error) {
         console.error("Error fetching movies:", error);
       }
@@ -36,7 +36,7 @@ function Home() {
 
     fetchUser();
     fetchMovies();
-  });
+  }, [dispatch]);
 
   const onSearch = (value) => {
     console.log("Search:", value);
@@ -44,8 +44,6 @@ function Home() {
 
   const onLogout = () => {
     dispatch(setUserData(null));
-    console.log(userData);
-    
     navigate("/login");
   };
 
