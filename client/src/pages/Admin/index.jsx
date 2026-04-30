@@ -20,8 +20,9 @@ function Admin() {
   return (
     <>
       <div>
-        <h1>This is Admin Page</h1>
-        <p>Only accessible to admin users.</p>
+        <p>
+          <b style={{ fontSize: "24px" }}>This is Admin Page</b> - Only accessible to admin users.
+        </p>
         <Tabs items={tabItems} />
       </div>
     </>
