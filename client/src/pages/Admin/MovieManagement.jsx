@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { getAllMovies } from "../../api/movie.api";
-import { Table } from "antd";
+import { Table, Button } from "antd";
 import moment from "moment";
+import MovieForm from "./MovieForm";
 
 function MovieManagement() {
   const [movies, setMovies] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -48,7 +50,20 @@ function MovieManagement() {
 
   return (
     <>
+      <div className="d-flex justify-content-end">
+        <Button
+          color="danger"
+          variant="filled"
+          style={{ marginBottom: "20px" }}
+          onClick={() => setIsModalOpen(true)}
+        >
+          Add New Movie
+        </Button>
+      </div>
       <Table dataSource={movies} columns={tableHeadings} />
+      {isModalOpen && (
+        <MovieForm isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
+      )}
     </>
   );
 }

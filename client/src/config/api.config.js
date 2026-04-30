@@ -5,3 +5,4 @@ export const REGISTER_URL = "/auth/register";
 export const USER_URL = "/auth/user";
 
 export const ALL_MOVIES_URL = "/movies/all";
+export const ADD_MOVIE_URL = "/movies/create";

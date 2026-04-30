@@ -19,43 +19,43 @@ const createMovie = async (req, res) => {
 };
 
 const getAllMovies = async (req, res) => {
-    try {
-        const movies = await Movie.find();
-        res.status(200).json({
-            status: "success",
-            message: "Movies retrieved successfully",
-            movies: movies,
-        });
-    } catch (error) {
-        res.status(500).json({
-            status: "error",
-            message: "Error retrieving movies",
-            error: error.message,
-        });
-    }   
+  try {
+    const movies = await Movie.find();
+    res.status(200).json({
+      status: "success",
+      message: "Movies retrieved successfully",
+      movies: movies,
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: "error",
+      message: "Error retrieving movies",
+      error: error.message,
+    });
+  }
 };
 
 const getMovieById = async (req, res) => {
-    try {
-        const movie = await Movie.findById(req.params.id);
-        if (!movie) {
-            return res.status(404).json({
-                status: "error",
-                message: "Movie not found",
-            });
-        }
-        res.status(200).json({
-            status: "success",
-            message: "Movie retrieved successfully",
-            movie: movie,
-        });
-    } catch (error) {
-        res.status(500).json({
-            status: "error",
-            message: "Error retrieving movie",
-            error: error.message,
-        });
+  try {
+    const movie = await Movie.findById(req.params.id);
+    if (!movie) {
+      return res.status(404).json({
+        status: "error",
+        message: "Movie not found",
+      });
     }
+    res.status(200).json({
+      status: "success",
+      message: "Movie retrieved successfully",
+      movie: movie,
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: "error",
+      message: "Error retrieving movie",
+      error: error.message,
+    });
+  }
 };
 
 const updateMovie = async (req, res) => {
