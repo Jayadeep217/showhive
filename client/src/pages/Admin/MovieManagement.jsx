@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { getAllMovies } from "../../api/movie.api";
+import { deleteMovie, getAllMovies } from "../../api/movie.api";
 import { Table, Button } from "antd";
+import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import moment from "moment";
 import MovieForm from "./MovieForm";
 
 function MovieManagement() {
   const [movies, setMovies] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [formType, setFormType] = useState("add");
+  const [selectedMovie, setSelectedMovie] = useState(null);
 
   useEffect(() => {
     (async () => {
@@ -46,23 +49,58 @@ function MovieManagement() {
       },
     },
     { title: "Ratings", dataIndex: "ratings" },
+    {
+      title: "Actions",
+      render: (text, data) => {
+        return (
+          <>
+            <Button
+              onClick={() => {
+                setIsModalOpen(true);
+                setSelectedMovie(data);
+                setFormType("edit");
+              }}
+            >
+              <EditOutlined />
+            </Button>
+            <Button
+            onClick={
+              deleteMovie(data)
+            }
+            >
+              <DeleteOutlined />
+            </Button>
+          </>
+        );
+      },
+    },
   ];
 
   return (
     <>
       <div className="d-flex justify-content-end">
         <Button
-          color="danger"
-          variant="filled"
+          color="default"
+          variant="outlined"
           style={{ marginBottom: "20px" }}
-          onClick={() => setIsModalOpen(true)}
+          onClick={() => {
+            setIsModalOpen(true);
+            setSelectedMovie(null);
+            setFormType("edit");
+          }}
         >
           Add New Movie
         </Button>
       </div>
       <Table dataSource={movies} columns={tableHeadings} />
       {isModalOpen && (
-        <MovieForm isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
+        <MovieForm
+          isModalOpen={isModalOpen}
+          setIsModalOpen={setIsModalOpen}
+          formType={formType}
+          selectedMovie={selectedMovie}
+          setSelectedMovie={setSelectedMovie}
+        />
       )}
     </>
   );

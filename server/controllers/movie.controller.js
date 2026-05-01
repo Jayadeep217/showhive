@@ -63,7 +63,7 @@ const updateMovie = async (req, res) => {
     const updatedMovie = await Movie.findByIdAndUpdate(
       req.params.id,
       req.body,
-      { returnDocument: "after69ef3c01712f7bc2f655168c" },
+      { returnDocument: "after" },
     );
     if (!updatedMovie) {
       return res.status(404).json({

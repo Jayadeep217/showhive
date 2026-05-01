@@ -6,3 +6,6 @@ export const USER_URL = "/auth/user";
 
 export const ALL_MOVIES_URL = "/movies/all";
 export const ADD_MOVIE_URL = "/movies/create";
+export const GET_MOVIE_URL = (id) => `/movies/${id}`;
+export const UPDATE_MOVIE_URL = (id) => `/movies/update/${id}`;
+export const DELETE_MOVIE_URL = (id) => `/movies/delete/${id}`;

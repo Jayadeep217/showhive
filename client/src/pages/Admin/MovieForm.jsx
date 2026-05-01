@@ -11,21 +11,50 @@ import {
   DatePicker,
 } from "antd";
 import TextArea from "antd/es/input/TextArea";
-import { addNewMovie } from "../../api/movie.api";
+import { addNewMovie, updateMovie } from "../../api/movie.api";
 
-function MovieForm({ isModalOpen, setIsModalOpen }) {
+function MovieForm({
+  isModalOpen,
+  setIsModalOpen,
+  formType,
+  selectedMovie,
+  // setSelectedMovie,
+}) {
   const [form] = Form.useForm();
   const onFinish = async (values) => {
+    const actionMap = {
+      add: {
+        request: () => addNewMovie(values),
+        successMessage: "Movie added successfully!",
+        failureMessage: "Failed to add movie.",
+      },
+      edit: {
+        request: () => updateMovie(selectedMovie._id, values),
+        successMessage: "Movie updated successfully!",
+        failureMessage: "Failed to update movie.",
+      },
+    };
+
+    const action = actionMap[formType];
+
+    if (!action) {
+      message.error("Invalid form action.");
+      return;
+    }
+
     try {
-      const response = await addNewMovie(values);
+      const response = await action.request();
+
       if (response.status === "success") {
-        message.success("Movie added successfully!");
+        message.success(action.successMessage);
         setIsModalOpen(false);
-      } else {
-        message.error("Failed to add movie. Please try again.");
+        return;
       }
+
+      message.error(`${action.failureMessage} Please try again.`);
     } catch (error) {
-      console.error("Error adding new movie:", error);
+      console.error(`Error during ${formType} movie operation:`, error);
+      message.error("Something went wrong. Please try again.");
     }
   };
   return (
@@ -41,6 +70,7 @@ function MovieForm({ isModalOpen, setIsModalOpen }) {
           layout="vertical"
           style={{ width: "100%" }}
           onFinish={onFinish}
+          initialValues={selectedMovie}
         >
           <Row
             gutter={{
@@ -152,12 +182,11 @@ function MovieForm({ isModalOpen, setIsModalOpen }) {
                       },
                     ]}
                   >
-                    <DatePicker
-                      style={{ width: "100%" }}
-                      id="releaseDate"
-                      type="date"
-                      placeholder="Choose the release date"
-                    />
+                  <Input
+                    id="releaseDate"
+                    type="date"
+                    placeholder="Choose the release date"
+                  ></Input>
                   </Form.Item>
                 </Col>
               </Row>
