@@ -7,6 +7,7 @@ const { formatLocalTimestamp } = require("./utils/date.utils.js");
 const { dbConnection } = require("./config/db");
 const userRoutes = require("./routes/user.routes.js");
 const movieRoutes = require("./routes/movie.routes.js");
+const theaterRoutes = require("./routes/theater.routes.js");
 
 const app = express();
 
@@ -24,6 +25,7 @@ app.use(
 // Routes
 app.use("/api/auth", userRoutes);
 app.use("/api/movies", movieRoutes);
+app.use("/api/theaters", theaterRoutes);
 
 // Server Initialization
 function serverPortInitialization(port) {
