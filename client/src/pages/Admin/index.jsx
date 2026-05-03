@@ -1,7 +1,7 @@
 import React from "react";
 
 import { Tabs } from "antd";
-import TheaterManagement from "./TheaterManagement";
+import TheaterList from "./TheaterList";
 import MovieManagement from "./MovieManagement";
 
 function Admin() {
@@ -14,14 +14,15 @@ function Admin() {
     {
       key: "2",
       label: "Theater Management",
-      children: <TheaterManagement />,
+      children: <TheaterList />,
     },
   ];
   return (
     <>
       <div>
         <p>
-          <b style={{ fontSize: "24px" }}>This is Admin Page</b> - Only accessible to admin users.
+          <b style={{ fontSize: "24px" }}>This is Admin Page</b> - Only
+          accessible to admin users.
         </p>
         <Tabs items={tabItems} />
       </div>

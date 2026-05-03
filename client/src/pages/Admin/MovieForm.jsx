@@ -61,6 +61,8 @@ function MovieForm({
         form.resetFields();
         setIsModalOpen();
       }}
+      okText={formType === "add" ? "Add" : "Update"}
+      cancelText="Close"
       onOk={form.submit}
       destroyOnHidden
     >

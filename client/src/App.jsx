@@ -6,6 +6,7 @@ import Home from "./pages/Home.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import PublicRoute from "./components/PublicRoute.jsx";
 import Admin from "./pages/Admin/";
+import Partner from "./pages/Partner/index.jsx";
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
             }
           />
           <Route path="/admin" element={<Admin />} />
+          <Route path="/partner" element={<Partner />} />
         </Routes>
       </BrowserRouter>
     </>

@@ -13,10 +13,11 @@ const theaterSchema = new mongoose.Schema(
     },
     phone: { type: String, required: true, trim: true },
     isActive: { type: Boolean, default: false },
-    // owner: {
-    //   type: mongoose.Schema.Types.ObjectId,
-    //   ref: "User",
-    // },
+    owner: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
   },
   {
     timestamps: true,

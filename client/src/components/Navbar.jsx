@@ -45,7 +45,9 @@ function Navbar({ userData, onSearch, onLogout }) {
 
         <Space>
           <Avatar icon={<UserOutlined />} />
-          <Link to="/admin">{displayName}</Link>
+          <Link to={userData?.role === "admin" ? "/admin" : "/partner"}>
+            {displayName}
+          </Link>
           <Button icon={<LogoutOutlined />} onClick={onLogout} type="default">
             Logout
           </Button>

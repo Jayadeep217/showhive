@@ -35,6 +35,23 @@ const getAllTheaters = async (req, res) => {
   }
 };
 
+const getPartnerTheaters = async (req, res) => {
+  try {
+    const theaters = await Theater.find({ owner: req.user._id });
+    res.status(200).json({
+      status: "success",
+      message: "Partner theaters retrieved successfully",
+      theaters: theaters,
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: "error",
+      message: "Error retrieving partner theaters",
+      error: error.message,
+    });
+  }
+};
+
 const getTheaterById = async (req, res) => {
   try {
     const theater = await Theater.findById(req.params.id);
