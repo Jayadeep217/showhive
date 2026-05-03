@@ -1,22 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { deleteMovie, getAllMovies } from "../../api/movie.api";
+import { deleteTheater, getPartnerTheaters } from "../../api/theater.api";
 import { Table, Button, notification, Popconfirm } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
-import moment from "moment";
-import MovieForm from "./MovieForm";
+import TheaterForm from "./theaterForm";
 
 function TheaterManagement() {
-  const [movies, setMovies] = useState([]);
+  const [theaters, setTheaters] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formType, setFormType] = useState("add");
-  const [selectedMovie, setSelectedMovie] = useState(null);
+  const [selectedTheater, setSelectedTheater] = useState(null);
   const [loading, setLoading] = useState(false);
 
   // Pure fetch function (NO state updates)
-  const fetchMovies = async () => {
+  const fetchTheaters = async () => {
     try {
-      const response = await getAllMovies();
-      return response?.movies || [];
+      const response = await getPartnerTheaters();
+      return response?.theaters || [];
     } catch (error) {
       notification.error({
         title: "Fetch Failed",
@@ -27,11 +26,11 @@ function TheaterManagement() {
   };
 
   // State updater (used outside useEffect too)
-  const loadMovies = async () => {
+  const loadTheaters = async () => {
     try {
       setLoading(true);
-      const moviesData = await fetchMovies();
-      setMovies(moviesData);
+      const theatersData = await fetchTheaters();
+      setTheaters(theatersData);
     } finally {
       setLoading(false);
     }
@@ -44,10 +43,10 @@ function TheaterManagement() {
     const init = async () => {
       try {
         setLoading(true);
-        const moviesData = await fetchMovies();
+        const theatersData = await fetchTheaters();
 
         if (!ignore) {
-          setMovies(moviesData);
+          setTheaters(theatersData);
         }
       } finally {
         if (!ignore) {
@@ -63,16 +62,16 @@ function TheaterManagement() {
     };
   }, []);
 
-  const handleDelete = async (movie) => {
+  const handleDelete = async (theater) => {
     try {
-      await deleteMovie(movie._id);
+      await deleteTheater(theater._id);
 
       notification.success({
-        title: "Movie Deleted",
-        description: `"${movie.title}" deleted successfully.`,
+        title: "Theater Deleted",
+        description: `"${theater.name}" deleted successfully.`,
       });
 
-      await loadMovies();
+      await loadTheaters();
     } catch (error) {
       notification.error({
         title: "Delete Failed",
@@ -81,74 +80,53 @@ function TheaterManagement() {
     }
   };
 
-  const handleAddMovie = () => {
+  const handleAddTheater = () => {
     setFormType("add");
-    setSelectedMovie(null);
+    setSelectedTheater(null);
     setIsModalOpen(true);
   };
 
-  const handleEditMovie = (movie) => {
+  const handleEditTheater = (theater) => {
     setFormType("edit");
-    setSelectedMovie(movie);
+    setSelectedTheater(theater);
     setIsModalOpen(true);
   };
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
-    setSelectedMovie(null);
+    setSelectedTheater(null);
     setFormType("add");
   };
 
   const columns = [
     {
-      title: "Poster",
-      dataIndex: "posterPath",
-      render: (_, movie) => (
-        <img width="100" src={movie.posterPath} alt={movie.title} />
-      ),
+      title: "Name",
+      dataIndex: "name",
     },
     {
-      title: "Title",
-      dataIndex: "title",
+      title: "Address`",
+      dataIndex: "address",
     },
     {
-      title: "Description",
-      dataIndex: "description",
+      title: "Email",
+      dataIndex: "email",
     },
     {
-      title: "Language",
-      dataIndex: "language",
-    },
-    {
-      title: "Genre",
-      dataIndex: "genre",
-    },
-    {
-      title: "Release Date",
-      dataIndex: "releaseDate",
-      render: (_, movie) => moment(movie.releaseDate).format("DD-MM-YYYY"),
-    },
-    {
-      title: "Duration",
-      dataIndex: "duration",
-      render: (duration) => `${duration} min`,
-    },
-    {
-      title: "Ratings",
-      dataIndex: "ratings",
+      title: "Phone",
+      dataIndex: "phone",
     },
     {
       title: "Actions",
-      render: (_, movie) => (
+      render: (_, theater) => (
         <div className="d-flex gap-2">
-          <Button onClick={() => handleEditMovie(movie)}>
+          <Button onClick={() => handleEditTheater(theater)}>
             <EditOutlined />
           </Button>
 
           <Popconfirm
-            title="Delete Movie"
-            description={`Are you sure you want to delete "${movie.title}"?`}
-            onConfirm={() => handleDelete(movie)}
+            title="Delete Theater"
+            description={`Are you sure you want to delete "${theater.name}"?`}
+            onConfirm={() => handleDelete(theater)}
             okText="Yes"
             cancelText="No"
           >
@@ -164,25 +142,25 @@ function TheaterManagement() {
   return (
     <>
       <div className="d-flex justify-content-end mb-3">
-        <Button type="primary" onClick={handleAddMovie}>
-          Add New Movie
+        <Button type="primary" onClick={handleAddTheater}>
+          Add New Theater
         </Button>
       </div>
 
       <Table
         rowKey="_id"
         columns={columns}
-        dataSource={movies}
+        dataSource={theaters}
         loading={loading}
       />
 
       {isModalOpen && (
-        <MovieForm
+        <TheaterForm
           isModalOpen={isModalOpen}
           setIsModalOpen={handleCloseModal}
           formType={formType}
-          selectedMovie={selectedMovie}
-          refreshMovies={loadMovies}
+          selectedTheater={selectedTheater}
+          refreshTheaters={loadTheaters}
         />
       )}
     </>

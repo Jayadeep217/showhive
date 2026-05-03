@@ -25,7 +25,7 @@ export const getAllTheatersAdmin = async () => {
   }
 };
 
-export const getPartnerTheaters = async () => {
+export const getPartnerTheaters = async ( ) => {
   try {
     const response = await api.get(ALL_THEATERS_URL, {
       withCredentials: true,
