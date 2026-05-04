@@ -8,6 +8,7 @@ const { dbConnection } = require("./config/db");
 const userRoutes = require("./routes/user.routes.js");
 const movieRoutes = require("./routes/movie.routes.js");
 const theaterRoutes = require("./routes/theater.routes.js");
+const showRouter = require("./routes/show.routes.js");
 
 const app = express();
 
@@ -26,13 +27,16 @@ app.use(
 app.use("/api/auth", userRoutes);
 app.use("/api/movies", movieRoutes);
 app.use("/api/theaters", theaterRoutes);
+app.use("/api/shows", showRouter);
 
 // Server Initialization
 function serverPortInitialization(port) {
   const server = app.listen(port);
 
   server.on("listening", () => {
-    console.log(`${formatLocalTimestamp()} | ✅ server listening on -> ${port}`);
+    console.log(
+      `${formatLocalTimestamp()} | ✅ server listening on -> ${port}`,
+    );
   });
 
   server.on("error", (error) => {
