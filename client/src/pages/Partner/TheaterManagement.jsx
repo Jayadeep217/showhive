@@ -2,7 +2,10 @@ import React, { useEffect, useState } from "react";
 import { deleteTheater, getPartnerTheaters } from "../../api/theater.api";
 import { Table, Button, notification, Popconfirm } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
-import TheaterForm from "./theaterForm";
+import TheaterForm from "./TheaterForm"; // Fix 4: corrected import casing
+import { setUserData } from "../../redux/userSlice";
+import { useDispatch } from "react-redux";
+import { getUser } from "../../api/auth.api";
 
 function TheaterManagement() {
   const [theaters, setTheaters] = useState([]);
@@ -10,11 +13,12 @@ function TheaterManagement() {
   const [formType, setFormType] = useState("add");
   const [selectedTheater, setSelectedTheater] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [ownerId, setOwnerId] = useState(null); // Fix 2: store owner ID in state
+  const dispatch = useDispatch();
 
-  // Pure fetch function (NO state updates)
-  const fetchTheaters = async () => {
+  const fetchTheaters = async (owner) => {
     try {
-      const response = await getPartnerTheaters();
+      const response = await getPartnerTheaters(owner);
       return response?.theaters || [];
     } catch (error) {
       notification.error({
@@ -24,12 +28,11 @@ function TheaterManagement() {
       return [];
     }
   };
-
-  // State updater (used outside useEffect too)
-  const loadTheaters = async () => {
+  
+  const loadTheaters = async (owner) => {
     try {
       setLoading(true);
-      const theatersData = await fetchTheaters();
+      const theatersData = await fetchTheaters(owner);
       setTheaters(theatersData);
     } finally {
       setLoading(false);
@@ -43,10 +46,17 @@ function TheaterManagement() {
     const init = async () => {
       try {
         setLoading(true);
-        const theatersData = await fetchTheaters();
+        const userData = await getUser();
+        dispatch(setUserData(userData?.data || null));
 
-        if (!ignore) {
-          setTheaters(theatersData);
+        if (userData?.data && userData.data._id) {
+          const owner = userData.data._id;
+          setOwnerId(owner);
+          const theatersData = await fetchTheaters(owner);
+
+          if (!ignore) {
+            setTheaters(theatersData);
+          }
         }
       } finally {
         if (!ignore) {
@@ -60,7 +70,7 @@ function TheaterManagement() {
     return () => {
       ignore = true;
     };
-  }, []);
+  }, [dispatch]);
 
   const handleDelete = async (theater) => {
     try {
@@ -71,7 +81,7 @@ function TheaterManagement() {
         description: `"${theater.name}" deleted successfully.`,
       });
 
-      await loadTheaters();
+      await loadTheaters(ownerId);
     } catch (error) {
       notification.error({
         title: "Delete Failed",
@@ -104,7 +114,7 @@ function TheaterManagement() {
       dataIndex: "name",
     },
     {
-      title: "Address`",
+      title: "Address",
       dataIndex: "address",
     },
     {
@@ -160,7 +170,8 @@ function TheaterManagement() {
           setIsModalOpen={handleCloseModal}
           formType={formType}
           selectedTheater={selectedTheater}
-          refreshTheaters={loadTheaters}
+          refreshTheaters={() => loadTheaters(ownerId)}
+          ownerId={ownerId}
         />
       )}
     </>

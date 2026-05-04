@@ -9,6 +9,6 @@ const { authorize } = require("../middlewares/auth.middleware.js");
 
 userRouter.post("/register", registerUser);
 userRouter.post("/login", loginUser);
-userRouter.get("/getuser", authorize, getUser);
+userRouter.get("/user", authorize, getUser);
 
 module.exports = userRouter;

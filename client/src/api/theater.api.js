@@ -2,6 +2,7 @@ import axios from "axios";
 import {
   API_URL,
   ALL_THEATERS_URL,
+  PARTNER_THEATERS_URL,
   ADD_THEATER_URL,
   GET_THEATER_URL,
   UPDATE_THEATER_URL,
@@ -25,14 +26,14 @@ export const getAllTheatersAdmin = async () => {
   }
 };
 
-export const getPartnerTheaters = async ( ) => {
+export const getPartnerTheaters = async (ownerId) => {
   try {
-    const response = await api.get(ALL_THEATERS_URL, {
+    const response = await api.get(PARTNER_THEATERS_URL(ownerId), {
       withCredentials: true,
     });
     return response.data;
   } catch (error) {
-    console.error("Get all theaters error:", error);
+    console.error("Get partner theaters error:", error);
     throw error;
   }
 };
@@ -63,9 +64,13 @@ export const addNewTheater = async (newTheaterData) => {
 
 export const updateTheater = async (theaterId, updatedTheaterData) => {
   try {
-    const response = await api.put(UPDATE_THEATER_URL(theaterId), updatedTheaterData, {
-      withCredentials: true,
-    });
+    const response = await api.put(
+      UPDATE_THEATER_URL(theaterId),
+      updatedTheaterData,
+      {
+        withCredentials: true,
+      },
+    );
     return response.data;
   } catch (error) {
     console.error("Update theater error:", error);

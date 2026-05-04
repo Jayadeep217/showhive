@@ -11,6 +11,7 @@ export const UPDATE_MOVIE_URL = (id) => `/movies/update/${id}`;
 export const DELETE_MOVIE_URL = (id) => `/movies/delete/${id}`;
 
 export const ALL_THEATERS_URL = "/theaters/all";
+export const PARTNER_THEATERS_URL = (id) => `/theaters/partner/${id}`;
 export const ADD_THEATER_URL = "/theaters/create";
 export const GET_THEATER_URL = (id) => `/theaters/${id}`;
 export const UPDATE_THEATER_URL = (id) => `/theaters/update/${id}`;

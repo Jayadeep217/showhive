@@ -37,7 +37,13 @@ const getAllTheaters = async (req, res) => {
 
 const getPartnerTheaters = async (req, res) => {
   try {
-    const theaters = await Theater.find({ owner: req.user._id });
+    const theaters = await Theater.find({ owner: req.params.id });
+    if (!theaters) {
+      return res.status(404).json({
+        status: "error",
+        message: "No theaters found for this partner",
+      });
+    }
     res.status(200).json({
       status: "success",
       message: "Partner theaters retrieved successfully",
@@ -127,6 +133,7 @@ const deleteTheater = async (req, res) => {
 module.exports = {
   createTheater,
   getAllTheaters,
+  getPartnerTheaters,
   getTheaterById,
   updateTheater,
   deleteTheater,

@@ -3,6 +3,7 @@ const theaterRouter = express.Router();
 const {
   createTheater,
   getAllTheaters,
+  getPartnerTheaters,
   getTheaterById,
   updateTheater,
   deleteTheater,
@@ -11,6 +12,7 @@ const {
 const { authorize } = require("../middlewares/auth.middleware.js");
 
 theaterRouter.get("/all", getAllTheaters);
+theaterRouter.get("/partner/:id", getPartnerTheaters);
 theaterRouter.get("/:id", getTheaterById);
 theaterRouter.post("/create", createTheater);
 theaterRouter.put("/update/:id", updateTheater);
