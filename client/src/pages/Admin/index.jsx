@@ -1,7 +1,7 @@
 import React from "react";
 
 import { Tabs } from "antd";
-import TheaterList from "./TheaterList";
+import TheaterList from "./TheaterManagement";
 import MovieManagement from "./MovieManagement";
 
 function Admin() {

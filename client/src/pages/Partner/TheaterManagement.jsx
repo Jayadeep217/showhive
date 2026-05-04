@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { deleteTheater, getPartnerTheaters } from "../../api/theater.api";
 import { Table, Button, notification, Popconfirm } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
-import TheaterForm from "./TheaterForm"; // Fix 4: corrected import casing
+import TheaterForm from "./TheaterForm";
 import { setUserData } from "../../redux/userSlice";
 import { useDispatch } from "react-redux";
 import { getUser } from "../../api/auth.api";
@@ -13,7 +13,7 @@ function TheaterManagement() {
   const [formType, setFormType] = useState("add");
   const [selectedTheater, setSelectedTheater] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [ownerId, setOwnerId] = useState(null); // Fix 2: store owner ID in state
+  const [ownerId, setOwnerId] = useState(null);
   const dispatch = useDispatch();
 
   const fetchTheaters = async (owner) => {
@@ -28,7 +28,7 @@ function TheaterManagement() {
       return [];
     }
   };
-  
+
   const loadTheaters = async (owner) => {
     try {
       setLoading(true);
@@ -126,6 +126,20 @@ function TheaterManagement() {
       dataIndex: "phone",
     },
     {
+      title: "Status",
+      dataIndex: "status",
+      render: (status, data) => (
+        <span
+          style={{
+            color: data.isActive === true ? "green" : "red",
+            fontWeight: "bold",
+          }}
+        >
+          {data.isActive === true ? "Approved" : "Pending / Rejected"}
+        </span>
+      ),
+    },
+    {
       title: "Actions",
       render: (_, theater) => (
         <div className="d-flex gap-2">
@@ -144,6 +158,7 @@ function TheaterManagement() {
               <DeleteOutlined />
             </Button>
           </Popconfirm>
+          {theater.isActive && <Button>Add Shows</Button>}
         </div>
       ),
     },
