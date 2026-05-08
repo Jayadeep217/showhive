@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { deleteMovie, getAllMovies } from "../../api/movie.api";
-import { Table, Button, notification, Popconfirm } from "antd";
+import { Table, Button, message, Popconfirm } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import moment from "moment";
 import MovieForm from "./MovieForm";
@@ -12,21 +12,16 @@ function MovieManagement() {
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  // Pure fetch function (NO state updates)
   const fetchMovies = async () => {
     try {
       const response = await getAllMovies();
       return response?.movies || [];
     } catch (error) {
-      notification.error({
-        title: "Fetch Failed",
-        description: error.message,
-      });
+      message.error(error.message);
       return [];
     }
   };
 
-  // State updater (used outside useEffect too)
   const loadMovies = async () => {
     try {
       setLoading(true);
@@ -37,7 +32,6 @@ function MovieManagement() {
     }
   };
 
-  // Initial load
   useEffect(() => {
     let ignore = false;
 
@@ -45,39 +39,23 @@ function MovieManagement() {
       try {
         setLoading(true);
         const moviesData = await fetchMovies();
-
-        if (!ignore) {
-          setMovies(moviesData);
-        }
+        if (!ignore) setMovies(moviesData);
       } finally {
-        if (!ignore) {
-          setLoading(false);
-        }
+        if (!ignore) setLoading(false);
       }
     };
 
     init();
-
-    return () => {
-      ignore = true;
-    };
+    return () => { ignore = true; };
   }, []);
 
   const handleDelete = async (movie) => {
     try {
       await deleteMovie(movie._id);
-
-      notification.success({
-        title: "Movie Deleted",
-        description: `"${movie.title}" deleted successfully.`,
-      });
-
+      message.success(`"${movie.title}" deleted successfully.`);
       await loadMovies();
     } catch (error) {
-      notification.error({
-        title: "Delete Failed",
-        description: error.message,
-      });
+      message.error(error.message);
     }
   };
 
@@ -107,22 +85,10 @@ function MovieManagement() {
         <img width="100" src={movie.posterPath} alt={movie.title} />
       ),
     },
-    {
-      title: "Title",
-      dataIndex: "title",
-    },
-    {
-      title: "Description",
-      dataIndex: "description",
-    },
-    {
-      title: "Language",
-      dataIndex: "language",
-    },
-    {
-      title: "Genre",
-      dataIndex: "genre",
-    },
+    { title: "Title", dataIndex: "title" },
+    { title: "Description", dataIndex: "description" },
+    { title: "Language", dataIndex: "language" },
+    { title: "Genre", dataIndex: "genre" },
     {
       title: "Release Date",
       dataIndex: "releaseDate",
@@ -133,18 +99,14 @@ function MovieManagement() {
       dataIndex: "duration",
       render: (duration) => `${duration} min`,
     },
-    {
-      title: "Ratings",
-      dataIndex: "ratings",
-    },
+    { title: "Ratings", dataIndex: "ratings" },
     {
       title: "Actions",
       render: (_, movie) => (
-        <div className="d-flex gap-2">
+        <div className="d-flex gap-10">
           <Button onClick={() => handleEditMovie(movie)}>
             <EditOutlined />
           </Button>
-
           <Popconfirm
             title="Delete Movie"
             description={`Are you sure you want to delete "${movie.title}"?`}

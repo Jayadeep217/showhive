@@ -37,8 +37,22 @@ function App() {
               </PublicRoute>
             }
           />
-          <Route path="/admin" element={<Admin />} />
-          <Route path="/partner" element={<Partner />} />
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute>
+                <Admin />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/partner"
+            element={
+              <ProtectedRoute>
+                <Partner />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </BrowserRouter>
     </>

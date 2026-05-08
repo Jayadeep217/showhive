@@ -1,3 +1,96 @@
+/* ── Navbar ────────────────────────────────────────────── */
+.app-navbar {
+  background: linear-gradient(90deg, #b71c3c 0%, #eb4e62 100%) !important;
+  display: flex;
+  align-items: center;
+  padding: 0 28px !important;
+  height: 64px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.navbar-logo {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.navbar-logo-icon {
+  font-size: 22px;
+  color: #fff;
+}
+.navbar-logo-text {
+  font-size: 20px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+.navbar-search-wrap {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  padding: 0 28px;
+}
+.navbar-search {
+  max-width: 440px;
+  width: 100%;
+  border-radius: 20px !important;
+  background: rgba(255, 255, 255, 0.18) !important;
+  border: 1px solid rgba(255, 255, 255, 0.35) !important;
+  box-shadow: none !important;
+}
+.navbar-search input {
+  background: transparent !important;
+  color: #fff !important;
+  font-size: 14px;
+}
+.navbar-search input::placeholder {
+  color: rgba(255, 255, 255, 0.65) !important;
+}
+.navbar-search .ant-input-clear-icon {
+  color: rgba(255, 255, 255, 0.7);
+}
+.navbar-search-icon {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.navbar-user-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 24px;
+  padding: 5px 14px 5px 5px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  flex-shrink: 0;
+}
+.navbar-user-pill:hover {
+  background: rgba(0, 0, 0, 0.32);
+}
+.navbar-avatar {
+  background-color: #fff !important;
+  color: #b71c3c !important;
+  font-weight: 700 !important;
+  font-size: 15px !important;
+}
+.navbar-username {
+  color: #fff !important;
+  font-weight: 500;
+  font-size: 14px;
+}
+.navbar-chevron {
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 11px;
+}
+/* ── Navbar end ─────────────────────────────────────────── */
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -47,6 +140,12 @@
 }  
 .d-block{
   display: block;
+}
+.d-flex{
+  display: flex;
+}
+.align-items-center{
+  align-items: center;
 }
 input, select{
   min-height: 45px;

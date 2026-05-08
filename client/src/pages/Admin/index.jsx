@@ -1,8 +1,10 @@
 import React from "react";
-
-import { Tabs } from "antd";
+import { Tabs, Typography } from "antd";
 import TheaterList from "./TheaterManagement";
 import MovieManagement from "./MovieManagement";
+import AppLayout from "../../components/AppLayout";
+
+const { Title } = Typography;
 
 function Admin() {
   const tabItems = [
@@ -18,15 +20,12 @@ function Admin() {
     },
   ];
   return (
-    <>
-      <div>
-        <p>
-          <b style={{ fontSize: "24px" }}>This is Admin Page</b> - Only
-          accessible to admin users.
-        </p>
-        <Tabs items={tabItems} />
-      </div>
-    </>
+    <AppLayout>
+      <Title level={3} style={{ marginBottom: 16 }}>
+        Admin Dashboard
+      </Title>
+      <Tabs items={tabItems} />
+    </AppLayout>
   );
 }
 

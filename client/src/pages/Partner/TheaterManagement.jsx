@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { deleteTheater, getPartnerTheaters } from "../../api/theater.api";
-import { Table, Button, notification, Popconfirm } from "antd";
+import { Table, Button, message, Popconfirm } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import TheaterForm from "./TheaterForm";
 import ShowsModal from "./ShowsModal";
@@ -24,10 +24,7 @@ function TheaterManagement() {
       const response = await getPartnerTheaters(owner);
       return response?.theaters || [];
     } catch (error) {
-      notification.error({
-        title: "Fetch Failed",
-        description: error.message,
-      });
+      message.error(error.message);
       return [];
     }
   };
@@ -42,7 +39,6 @@ function TheaterManagement() {
     }
   };
 
-  // Initial load
   useEffect(() => {
     let ignore = false;
 
@@ -52,44 +48,28 @@ function TheaterManagement() {
         const userData = await getUser();
         dispatch(setUserData(userData?.data || null));
 
-        if (userData?.data && userData.data._id) {
+        if (userData?.data?._id) {
           const owner = userData.data._id;
           setOwnerId(owner);
           const theatersData = await fetchTheaters(owner);
-
-          if (!ignore) {
-            setTheaters(theatersData);
-          }
+          if (!ignore) setTheaters(theatersData);
         }
       } finally {
-        if (!ignore) {
-          setLoading(false);
-        }
+        if (!ignore) setLoading(false);
       }
     };
 
     init();
-
-    return () => {
-      ignore = true;
-    };
+    return () => { ignore = true; };
   }, [dispatch]);
 
   const handleDelete = async (theater) => {
     try {
       await deleteTheater(theater._id);
-
-      notification.success({
-        title: "Theater Deleted",
-        description: `"${theater.name}" deleted successfully.`,
-      });
-
+      message.success(`"${theater.name}" deleted successfully.`);
       await loadTheaters(ownerId);
     } catch (error) {
-      notification.error({
-        title: "Delete Failed",
-        description: error.message,
-      });
+      message.error(error.message);
     }
   };
 
@@ -117,44 +97,26 @@ function TheaterManagement() {
   };
 
   const columns = [
-    {
-      title: "Name",
-      dataIndex: "name",
-    },
-    {
-      title: "Address",
-      dataIndex: "address",
-    },
-    {
-      title: "Email",
-      dataIndex: "email",
-    },
-    {
-      title: "Phone",
-      dataIndex: "phone",
-    },
+    { title: "Name", dataIndex: "name" },
+    { title: "Address", dataIndex: "address" },
+    { title: "Email", dataIndex: "email" },
+    { title: "Phone", dataIndex: "phone" },
     {
       title: "Status",
       dataIndex: "status",
-      render: (status, data) => (
-        <span
-          style={{
-            color: data.isActive === true ? "green" : "red",
-            fontWeight: "bold",
-          }}
-        >
-          {data.isActive === true ? "Approved" : "Pending / Rejected"}
+      render: (_, data) => (
+        <span style={{ color: data.isActive ? "green" : "red", fontWeight: "bold" }}>
+          {data.isActive ? "Approved" : "Pending / Blocked"}
         </span>
       ),
     },
     {
       title: "Actions",
       render: (_, theater) => (
-        <div className="d-flex gap-2">
+        <div className="d-flex gap-10">
           <Button onClick={() => handleEditTheater(theater)}>
             <EditOutlined />
           </Button>
-
           <Popconfirm
             title="Delete Theater"
             description={`Are you sure you want to delete "${theater.name}"?`}

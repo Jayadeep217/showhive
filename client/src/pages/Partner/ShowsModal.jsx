@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { Modal, Table, Button, notification, Popconfirm } from "antd";
+import { Modal, Table, Button, message, Popconfirm } from "antd";
 import { EditOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import { getShowsByTheater, deleteShow } from "../../api/show.api";
 import ShowForm from "./ShowForm";
@@ -19,10 +19,7 @@ function ShowsModal({ isModalOpen, onCancel, theater }) {
       const response = await getShowsByTheater(theater._id);
       setShows(response?.shows || []);
     } catch (error) {
-      notification.error({
-        message: "Failed to load shows",
-        description: error.message,
-      });
+      message.error(error.message);
     } finally {
       setLoading(false);
     }
@@ -30,24 +27,16 @@ function ShowsModal({ isModalOpen, onCancel, theater }) {
 
   useEffect(() => {
     if (!isModalOpen) return;
-
-    const loadShows = async () => {
-      await fetchShows();
-    };
-
-    loadShows();
+    fetchShows();
   }, [isModalOpen, fetchShows]);
 
   const handleDelete = async (show) => {
     try {
       await deleteShow(show._id);
-      notification.success({ message: `"${show.name}" deleted successfully` });
+      message.success(`"${show.name}" deleted successfully.`);
       fetchShows();
     } catch (error) {
-      notification.error({
-        message: "Delete failed",
-        description: error.message,
-      });
+      message.error(error.message);
     }
   };
 
@@ -90,7 +79,7 @@ function ShowsModal({ isModalOpen, onCancel, theater }) {
     {
       title: "Actions",
       render: (_, show) => (
-        <div className="d-flex gap-2">
+        <div className="d-flex gap-10">
           <Button onClick={() => handleEditShow(show)}>
             <EditOutlined />
           </Button>
@@ -121,11 +110,7 @@ function ShowsModal({ isModalOpen, onCancel, theater }) {
         destroyOnHidden
       >
         <div className="d-flex justify-content-end mb-3">
-          <Button
-            type="primary"
-            icon={<PlusOutlined />}
-            onClick={handleAddShow}
-          >
+          <Button type="primary" icon={<PlusOutlined />} onClick={handleAddShow}>
             Add Show
           </Button>
         </div>

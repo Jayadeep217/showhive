@@ -1,10 +1,12 @@
 import { Link } from "react-router-dom";
-
-import { Layout, Input, Button, Avatar, Typography, Space } from "antd";
+import { Layout, Input, Avatar, Typography, Dropdown } from "antd";
 import {
   UserOutlined,
   LogoutOutlined,
   SearchOutlined,
+  VideoCameraOutlined,
+  DashboardOutlined,
+  DownOutlined,
 } from "@ant-design/icons";
 
 const { Header } = Layout;
@@ -12,48 +14,55 @@ const { Text } = Typography;
 
 function Navbar({ userData, onSearch, onLogout }) {
   const displayName = userData?.name || "Guest";
+  const initials = displayName.charAt(0).toUpperCase();
+  const dashboardPath = userData?.role === "admin" ? "/admin" : "/partner";
+
+  const menuItems = [
+    {
+      key: "dashboard",
+      icon: <DashboardOutlined />,
+      label: <Link to={dashboardPath}>My Dashboard</Link>,
+    },
+    { type: "divider" },
+    {
+      key: "logout",
+      icon: <LogoutOutlined />,
+      label: "Logout",
+      danger: true,
+      onClick: onLogout,
+    },
+  ];
 
   return (
-    <>
-      <Header
-        style={{
-          background: "rgb(235, 78, 98)",
-          display: "flex",
-          alignItems: "center",
-          padding: "0 20px",
-        }}
-      >
-        <Text strong style={{ fontSize: 18 }}>
-          ShowHive
-        </Text>
+    <Header className="app-navbar">
+      {/* Logo */}
+      <Link to="/home" className="navbar-logo">
+        <VideoCameraOutlined className="navbar-logo-icon" />
+        <span className="navbar-logo-text">ShowHive</span>
+      </Link>
 
-        <div
-          style={{
-            flex: 1,
-            display: "flex",
-            justifyContent: "center",
-            padding: "0 20px",
-          }}
-        >
-          <Input
-            placeholder="Search..."
-            onPressEnter={(e) => onSearch(e.target.value)}
-            style={{ maxWidth: 400 }}
-            prefix={<SearchOutlined />}
-          />
+      {/* Search */}
+      <div className="navbar-search-wrap">
+        <Input
+          placeholder="Search movies..."
+          onPressEnter={(e) => onSearch(e.target.value)}
+          prefix={<SearchOutlined className="navbar-search-icon" />}
+          allowClear
+          className="navbar-search"
+        />
+      </div>
+
+      {/* User dropdown */}
+      <Dropdown menu={{ items: menuItems }} placement="bottomRight" trigger={["click"]}>
+        <div className="navbar-user-pill">
+          <Avatar className="navbar-avatar" icon={!userData ? <UserOutlined /> : null}>
+            {userData ? initials : null}
+          </Avatar>
+          <Text className="navbar-username">{displayName}</Text>
+          <DownOutlined className="navbar-chevron" />
         </div>
-
-        <Space>
-          <Avatar icon={<UserOutlined />} />
-          <Link to={userData?.role === "admin" ? "/admin" : "/partner"}>
-            {displayName}
-          </Link>
-          <Button icon={<LogoutOutlined />} onClick={onLogout} type="default">
-            Logout
-          </Button>
-        </Space>
-      </Header>
-    </>
+      </Dropdown>
+    </Header>
   );
 }
 

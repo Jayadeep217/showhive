@@ -1,7 +1,9 @@
 import React from "react";
-
-import { Tabs } from "antd";
+import { Tabs, Typography } from "antd";
 import TheaterManagement from "./TheaterManagement";
+import AppLayout from "../../components/AppLayout";
+
+const { Title } = Typography;
 
 function Partner() {
   const tabItems = [
@@ -12,15 +14,12 @@ function Partner() {
     },
   ];
   return (
-    <>
-      <div>
-        <p>
-          <b style={{ fontSize: "24px" }}>This is Partner Page</b> - Only
-          accessible to partner users.
-        </p>
-        <Tabs items={tabItems} />
-      </div>
-    </>
+    <AppLayout>
+      <Title level={3} style={{ marginBottom: 16 }}>
+        Partner Dashboard
+      </Title>
+      <Tabs items={tabItems} />
+    </AppLayout>
   );
 }
 export default Partner;
