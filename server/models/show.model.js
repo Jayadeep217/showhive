@@ -10,12 +10,12 @@ const showSchema = new mongoose.Schema(
     ticketPrice: { type: Number, required: true },
     movie: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Movie",
+      ref: "movie",
       required: true,
     },
     theater: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Theater",
+      ref: "theater",
       required: true,
     },
   },

@@ -52,8 +52,7 @@ function TheaterManagement() {
     {
       title: "Owner",
       dataIndex: "owner",
-      render: (text, data) => {
-        console.log(text, data);        
+      render: (text, data) => {     
         return data.owner && data.owner.name;
       },
     },

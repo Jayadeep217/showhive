@@ -27,7 +27,7 @@ function ShowsModal({ isModalOpen, onCancel, theater }) {
       setLoading(false);
     }
   }, [theater]);
-  
+
   useEffect(() => {
     if (!isModalOpen) return;
 
