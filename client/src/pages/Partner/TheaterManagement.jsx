@@ -3,6 +3,7 @@ import { deleteTheater, getPartnerTheaters } from "../../api/theater.api";
 import { Table, Button, notification, Popconfirm } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import TheaterForm from "./TheaterForm";
+import ShowsModal from "./ShowsModal";
 import { setUserData } from "../../redux/userSlice";
 import { useDispatch } from "react-redux";
 import { getUser } from "../../api/auth.api";
@@ -12,6 +13,8 @@ function TheaterManagement() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formType, setFormType] = useState("add");
   const [selectedTheater, setSelectedTheater] = useState(null);
+  const [isShowsModalOpen, setIsShowsModalOpen] = useState(false);
+  const [showsTheater, setShowsTheater] = useState(null);
   const [loading, setLoading] = useState(false);
   const [ownerId, setOwnerId] = useState(null);
   const dispatch = useDispatch();
@@ -102,6 +105,11 @@ function TheaterManagement() {
     setIsModalOpen(true);
   };
 
+  const handleOpenShows = (theater) => {
+    setShowsTheater(theater);
+    setIsShowsModalOpen(true);
+  };
+
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setSelectedTheater(null);
@@ -158,7 +166,9 @@ function TheaterManagement() {
               <DeleteOutlined />
             </Button>
           </Popconfirm>
-          {theater.isActive && <Button>Add Shows</Button>}
+          {theater.isActive && (
+            <Button onClick={() => handleOpenShows(theater)}>Add Shows</Button>
+          )}
         </div>
       ),
     },
@@ -187,6 +197,14 @@ function TheaterManagement() {
           selectedTheater={selectedTheater}
           refreshTheaters={() => loadTheaters(ownerId)}
           ownerId={ownerId}
+        />
+      )}
+
+      {isShowsModalOpen && (
+        <ShowsModal
+          isModalOpen={isShowsModalOpen}
+          onCancel={() => setIsShowsModalOpen(false)}
+          theater={showsTheater}
         />
       )}
     </>

@@ -58,6 +58,45 @@ const getShowById = async (req, res) => {
   }
 };
 
+const getShowsByTheater = async (req, res) => {
+  try {
+    const shows = await Show.find({ theater: req.params.theaterId }).populate(
+      "movie",
+    );
+    res.status(200).json({
+      status: "success",
+      message: "Shows retrieved successfully",
+      shows: shows,
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: "error",
+      message: "Error retrieving shows",
+      error: error.message,
+    });
+  }
+};
+
+const getAllTheatersByMovie = async (req, res) => {
+  try {
+    const { movieId, date } = req.body;
+    const shows = await Show.find({ movie: movieId, date: date });
+    const theaters = shows.map((show) => show.theater);
+
+    res.status(200).json({
+      status: "success",
+      message: "Shows retrieved successfully",
+      theaters: theaters,
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: "error",
+      message: "Error retrieving shows",
+      error: error.message,
+    });
+  }
+};
+
 const updateShow = async (req, res) => {
   try {
     const updatedShow = await Show.findByIdAndUpdate(req.params.id, req.body, {
@@ -109,6 +148,8 @@ module.exports = {
   createShow,
   getAllShows,
   getShowById,
+  getShowsByTheater,
+  getAllTheatersByMovie,
   updateShow,
   deleteShow,
 };

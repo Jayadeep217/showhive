@@ -4,6 +4,8 @@ const {
   createShow,
   getAllShows,
   getShowById,
+  getShowsByTheater,
+  getAllTheatersByMovie,
   updateShow,
   deleteShow,
 } = require("../controllers/show.controller.js");
@@ -11,9 +13,11 @@ const {
 const { authorize } = require("../middlewares/auth.middleware.js");
 
 showRouter.get("/all", getAllShows);
-showRouter.get("/:id", getShowById);
+showRouter.get("/theater/:theaterId", getShowsByTheater);
+showRouter.post("/allTheatersbyMovie", getAllTheatersByMovie);
 showRouter.post("/create", createShow);
 showRouter.put("/update/:id", updateShow);
 showRouter.delete("/delete/:id", deleteShow);
+showRouter.get("/:id", getShowById);
 
 module.exports = showRouter;

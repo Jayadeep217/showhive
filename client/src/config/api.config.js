@@ -18,3 +18,8 @@ export const UPDATE_THEATER_URL = (id) => `/theaters/update/${id}`;
 export const DELETE_THEATER_URL = (id) => `/theaters/delete/${id}`;
 
 export const ALL_SHOWS_URL = "/shows/all";
+export const ADD_SHOW_URL = "/shows/create";
+export const GET_SHOW_URL = (id) => `/shows/${id}`;
+export const GET_SHOWS_BY_THEATER_URL = (theaterId) => `/shows/theater/${theaterId}`;
+export const UPDATE_SHOW_URL = (id) => `/shows/update/${id}`;
+export const DELETE_SHOW_URL = (id) => `/shows/delete/${id}`;
