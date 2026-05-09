@@ -16,14 +16,19 @@ function Navbar({ userData, onSearch, onLogout }) {
   const displayName = userData?.name || "Guest";
   const initials = displayName.charAt(0).toUpperCase();
   const dashboardPath = userData?.role === "admin" ? "/admin" : "/partner";
+  const hasDashboard = userData?.role === "admin" || userData?.role === "partner";
 
   const menuItems = [
-    {
-      key: "dashboard",
-      icon: <DashboardOutlined />,
-      label: <Link to={dashboardPath}>My Dashboard</Link>,
-    },
-    { type: "divider" },
+    ...(hasDashboard
+      ? [
+          {
+            key: "dashboard",
+            icon: <DashboardOutlined />,
+            label: <Link to={dashboardPath}>My Dashboard</Link>,
+          },
+          { type: "divider" },
+        ]
+      : []),
     {
       key: "logout",
       icon: <LogoutOutlined />,

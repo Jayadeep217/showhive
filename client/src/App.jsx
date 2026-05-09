@@ -5,6 +5,8 @@ import Register from "./pages/Register.jsx";
 import Home from "./pages/Home.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import PublicRoute from "./components/PublicRoute.jsx";
+import PartnerRoute from "./components/PartnerRoute.jsx";
+import AdminRoute from "./components/AdminRoute.jsx";
 import Admin from "./pages/Admin/";
 import Partner from "./pages/Partner/index.jsx";
 
@@ -40,17 +42,17 @@ function App() {
           <Route
             path="/admin"
             element={
-              <ProtectedRoute>
+              <AdminRoute>
                 <Admin />
-              </ProtectedRoute>
+              </AdminRoute>
             }
           />
           <Route
             path="/partner"
             element={
-              <ProtectedRoute>
+              <PartnerRoute>
                 <Partner />
-              </ProtectedRoute>
+              </PartnerRoute>
             }
           />
         </Routes>
