@@ -3,7 +3,7 @@ import { deleteMovie, getAllMovies } from "../../api/movie.api";
 import { Table, Button, message, Popconfirm } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import moment from "moment";
-import MovieForm from "./MovieForm";
+import MovieForm from "./MovieForm.jsx";
 
 function MovieManagement() {
   const [movies, setMovies] = useState([]);
@@ -46,7 +46,9 @@ function MovieManagement() {
     };
 
     init();
-    return () => { ignore = true; };
+    return () => {
+      ignore = true;
+    };
   }, []);
 
   const handleDelete = async (movie) => {

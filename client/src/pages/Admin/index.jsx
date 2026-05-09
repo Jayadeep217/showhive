@@ -1,8 +1,8 @@
 import React from "react";
 import { Tabs, Typography } from "antd";
-import TheaterList from "./TheaterManagement";
-import MovieManagement from "./MovieManagement";
-import AppLayout from "../../components/AppLayout";
+import TheaterList from "./TheaterManagement.jsx";
+import MovieManagement from "./MovieManagement.jsx";
+import AppLayout from "../../components/AppLayout.jsx";
 
 const { Title } = Typography;
 

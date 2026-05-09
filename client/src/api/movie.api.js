@@ -51,9 +51,13 @@ export const addNewMovie = async (newMovieData) => {
 
 export const updateMovie = async (movieId, updatedMovieData) => {
   try {
-    const response = await api.put(UPDATE_MOVIE_URL(movieId), updatedMovieData, {
-      withCredentials: true,
-    });
+    const response = await api.put(
+      UPDATE_MOVIE_URL(movieId),
+      updatedMovieData,
+      {
+        withCredentials: true,
+      },
+    );
     return response.data;
   } catch (error) {
     console.error("Update movie error:", error);

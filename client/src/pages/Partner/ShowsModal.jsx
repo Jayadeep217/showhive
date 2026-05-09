@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import { Modal, Table, Button, message, Popconfirm } from "antd";
 import { EditOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import { getShowsByTheater, deleteShow } from "../../api/show.api";
-import ShowForm from "./ShowForm";
+import ShowForm from "./ShowForm.jsx";
 import moment from "moment";
 
 function ShowsModal({ isModalOpen, onCancel, theater }) {
@@ -110,7 +110,11 @@ function ShowsModal({ isModalOpen, onCancel, theater }) {
         destroyOnHidden
       >
         <div className="d-flex justify-content-end mb-3">
-          <Button type="primary" icon={<PlusOutlined />} onClick={handleAddShow}>
+          <Button
+            type="primary"
+            icon={<PlusOutlined />}
+            onClick={handleAddShow}
+          >
             Add Show
           </Button>
         </div>

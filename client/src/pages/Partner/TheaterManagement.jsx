@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { deleteTheater, getPartnerTheaters } from "../../api/theater.api";
 import { Table, Button, message, Popconfirm } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
-import TheaterForm from "./TheaterForm";
-import ShowsModal from "./ShowsModal";
-import { setUserData } from "../../redux/userSlice";
-import { useDispatch } from "react-redux";
+import TheaterForm from "./TheaterForm.jsx";
+import ShowsModal from "./ShowsModal.jsx";
+import { setUserData } from "../../redux/userSlice.js";
 import { getUser } from "../../api/auth.api";
 
 function TheaterManagement() {
@@ -60,7 +60,9 @@ function TheaterManagement() {
     };
 
     init();
-    return () => { ignore = true; };
+    return () => {
+      ignore = true;
+    };
   }, [dispatch]);
 
   const handleDelete = async (theater) => {
@@ -105,7 +107,9 @@ function TheaterManagement() {
       title: "Status",
       dataIndex: "status",
       render: (_, data) => (
-        <span style={{ color: data.isActive ? "green" : "red", fontWeight: "bold" }}>
+        <span
+          style={{ color: data.isActive ? "green" : "red", fontWeight: "bold" }}
+        >
           {data.isActive ? "Approved" : "Pending / Blocked"}
         </span>
       ),

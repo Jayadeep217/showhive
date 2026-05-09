@@ -123,7 +123,9 @@ function MovieForm({
             <Form.Item
               label="Release Date"
               name="releaseDate"
-              rules={[{ required: true, message: "Please select release date" }]}
+              rules={[
+                { required: true, message: "Please select release date" },
+              ]}
             >
               <Input type="date" />
             </Form.Item>

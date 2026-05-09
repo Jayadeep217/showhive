@@ -1,9 +1,7 @@
-import React from 'react'
+import React from "react";
 
 function Users() {
-  return (
-    <div>Users Page</div>
-  )
+  return <div>Users Page</div>;
 }
 
-export default Users
+export default Users;

@@ -54,7 +54,9 @@ function TheaterManagement() {
       title: "Status",
       dataIndex: "status",
       render: (_, data) => (
-        <span style={{ color: data.isActive ? "green" : "red", fontWeight: "bold" }}>
+        <span
+          style={{ color: data.isActive ? "green" : "red", fontWeight: "bold" }}
+        >
           {data.isActive ? "Approved" : "Pending / Blocked"}
         </span>
       ),

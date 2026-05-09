@@ -16,7 +16,8 @@ function Navbar({ userData, onSearch, onLogout }) {
   const displayName = userData?.name || "Guest";
   const initials = displayName.charAt(0).toUpperCase();
   const dashboardPath = userData?.role === "admin" ? "/admin" : "/partner";
-  const hasDashboard = userData?.role === "admin" || userData?.role === "partner";
+  const hasDashboard =
+    userData?.role === "admin" || userData?.role === "partner";
 
   const menuItems = [
     ...(hasDashboard
@@ -58,9 +59,16 @@ function Navbar({ userData, onSearch, onLogout }) {
       </div>
 
       {/* User dropdown */}
-      <Dropdown menu={{ items: menuItems }} placement="bottomRight" trigger={["click"]}>
+      <Dropdown
+        menu={{ items: menuItems }}
+        placement="bottomRight"
+        trigger={["click"]}
+      >
         <div className="navbar-user-pill">
-          <Avatar className="navbar-avatar" icon={!userData ? <UserOutlined /> : null}>
+          <Avatar
+            className="navbar-avatar"
+            icon={!userData ? <UserOutlined /> : null}
+          >
             {userData ? initials : null}
           </Avatar>
           <Text className="navbar-username">{displayName}</Text>

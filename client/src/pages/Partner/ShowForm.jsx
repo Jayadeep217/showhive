@@ -68,7 +68,9 @@ function ShowForm({
 
       if (response.status === "success") {
         message.success(
-          formType === "add" ? "Show added successfully!" : "Show updated successfully!",
+          formType === "add"
+            ? "Show added successfully!"
+            : "Show updated successfully!",
         );
         form.resetFields();
         onCancel();
@@ -118,7 +120,9 @@ function ShowForm({
                 placeholder="Select a movie"
                 options={movies.map((m) => ({ value: m._id, label: m.title }))}
                 filterOption={(input, option) =>
-                  (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
+                  (option?.label ?? "")
+                    .toLowerCase()
+                    .includes(input.toLowerCase())
                 }
               />
             </Form.Item>

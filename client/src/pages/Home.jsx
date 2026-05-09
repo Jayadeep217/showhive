@@ -4,10 +4,10 @@ import { useNavigate } from "react-router-dom";
 
 import { getUser } from "../api/auth.api.js";
 import { setUserData } from "../redux/userSlice.js";
+import { getAllMovies } from "../api/movie.api.js";
 
 import Navbar from "../components/Navbar.jsx";
 import MovieCard from "../components/Moviecard.jsx";
-import { getAllMovies } from "../api/movie.api.js";
 
 function Home() {
   const [movies, setMovies] = useState([]);

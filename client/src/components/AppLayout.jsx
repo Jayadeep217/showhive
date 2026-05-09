@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
 import { getUser } from "../api/auth.api";
-import { setUserData } from "../redux/userSlice";
+import { setUserData } from "../redux/userSlice.js";
 
 function AppLayout({ children }) {
   const userData = useSelector((state) => state.user.user);
@@ -27,9 +27,7 @@ function AppLayout({ children }) {
     <>
       <Navbar userData={userData} onSearch={() => {}} onLogout={onLogout} />
       <div style={{ padding: "28px", minHeight: "calc(100vh - 64px)" }}>
-        <div className="dashboard-panel">
-          {children}
-        </div>
+        <div className="dashboard-panel">{children}</div>
       </div>
     </>
   );
