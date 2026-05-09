@@ -97,7 +97,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #1c1c2e 0%, #2d1b3d 55%, #1a0a0f 100%);
+  background:
+    radial-gradient(ellipse at 20% 20%, rgba(235, 78, 98, 0.18) 0%, transparent 55%),
+    radial-gradient(ellipse at 80% 80%, rgba(183, 28, 60, 0.12) 0%, transparent 55%),
+    linear-gradient(145deg, #fff0f2 0%, #fce8ec 40%, #f5eaf0 100%);
   padding: 24px;
 }
 .auth-card {
@@ -106,7 +109,7 @@
   padding: 40px 36px;
   width: 100%;
   max-width: 420px;
-  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.45);
+  box-shadow: 0 8px 40px rgba(183, 28, 60, 0.12), 0 2px 12px rgba(0, 0, 0, 0.08);
 }
 .auth-brand {
   display: flex;
@@ -152,16 +155,114 @@
 
 /* ── Home page ───────────────────────────────────────────── */
 .home-content {
-  background: #f0f2f5;
+  background: transparent;
   min-height: calc(100vh - 64px);
-  padding: 28px;
+  padding: 32px 28px;
 }
 .movies-grid {
   display: flex;
   flex-wrap: wrap;
-  gap: 20px;
+  gap: 24px;
+  justify-content: center;
 }
 /* ── Home page end ───────────────────────────────────────── */
+
+/* ── Dashboard panel (Admin / Partner) ───────────────────── */
+.dashboard-panel {
+  background: #fff;
+  border-radius: 16px;
+  padding: 28px;
+  box-shadow: 0 4px 24px rgba(183, 28, 60, 0.08), 0 1px 6px rgba(0, 0, 0, 0.06);
+}
+/* ── Dashboard panel end ─────────────────────────────────── */
+
+/* ── Movie card ──────────────────────────────────────────── */
+.movie-card {
+  width: 200px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  cursor: pointer;
+}
+.movie-card:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.18);
+}
+
+.movie-card-poster-wrap {
+  position: relative;
+  overflow: hidden;
+}
+.movie-card-poster {
+  width: 100%;
+  height: 290px;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.35s ease;
+}
+.movie-card:hover .movie-card-poster {
+  transform: scale(1.07);
+}
+
+.movie-card-rating {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: rgba(0, 0, 0, 0.65);
+  color: #fff;
+  border-radius: 6px;
+  padding: 3px 8px;
+  font-size: 12px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  backdrop-filter: blur(4px);
+}
+
+.movie-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.52);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+.movie-card:hover .movie-card-overlay {
+  opacity: 1;
+}
+.movie-card-book-btn {
+  background: #b71c3c !important;
+  border-color: #b71c3c !important;
+  font-weight: 600;
+}
+.movie-card-book-btn:hover {
+  background: #eb4e62 !important;
+  border-color: #eb4e62 !important;
+}
+
+.movie-card-info {
+  padding: 12px 14px 14px;
+}
+.movie-card-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin: 0 0 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.movie-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+/* ── Movie card end ──────────────────────────────────────── */
 
 .App-logo {
   height: 40vmin;

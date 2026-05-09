@@ -1,33 +1,39 @@
-// MovieCard.jsx
 import React from "react";
-import { Card, Typography, Rate, Tag } from "antd";
-
-const { Title, Text } = Typography;
+import { Tag, Button } from "antd";
+import { StarFilled, PlayCircleOutlined } from "@ant-design/icons";
 
 function MovieCard({ title, posterUrl, rating, genre, language }) {
   return (
-    <Card
-      hoverable
-      style={{ width: 200, borderRadius: 10, overflow: "hidden" }}
-      cover={
-        <img
-          src={posterUrl}
-          alt={title}
-          style={{ height: 280, objectFit: "cover" }}
-        />
-      }
-    >
-      <Title level={5} style={{ marginBottom: 6 }}>
-        {title}
-      </Title>
+    <div className="movie-card">
+      <div className="movie-card-poster-wrap">
+        <img src={posterUrl} alt={title} className="movie-card-poster" />
 
-      <div style={{ marginBottom: 8 }}>
-        <Text strong>{rating}/10</Text>
+        {rating && (
+          <div className="movie-card-rating">
+            <StarFilled style={{ color: "#ffd700", fontSize: 12 }} />
+            <span>{rating}</span>
+          </div>
+        )}
+
+        <div className="movie-card-overlay">
+          <Button
+            type="primary"
+            icon={<PlayCircleOutlined />}
+            className="movie-card-book-btn"
+          >
+            Book Now
+          </Button>
+        </div>
       </div>
 
-      <Tag color="blue">{genre}</Tag>
-      <Tag>{language}</Tag>
-    </Card>
+      <div className="movie-card-info">
+        <p className="movie-card-title">{title}</p>
+        <div className="movie-card-tags">
+          {genre && <Tag color="volcano">{genre}</Tag>}
+          {language && <Tag color="blue">{language}</Tag>}
+        </div>
+      </div>
+    </div>
   );
 }
 
