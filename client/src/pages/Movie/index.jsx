@@ -161,7 +161,7 @@ function MoviePage() {
                   type="primary"
                   size="large"
                   className="movie-hero-cta"
-                  onClick={() => {}}
+                  onClick={() => navigate(`/booking/${id}`, { state: { movie } })}
                 >
                   Book Tickets
                 </Button>

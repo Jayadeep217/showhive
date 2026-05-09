@@ -9,6 +9,7 @@ const userRoutes = require("./routes/user.routes.js");
 const movieRoutes = require("./routes/movie.routes.js");
 const theaterRoutes = require("./routes/theater.routes.js");
 const showRouter = require("./routes/show.routes.js");
+const bookingRouter = require("./routes/booking.routes.js");
 
 const app = express();
 
@@ -28,6 +29,7 @@ app.use("/api/auth", userRoutes);
 app.use("/api/movies", movieRoutes);
 app.use("/api/theaters", theaterRoutes);
 app.use("/api/shows", showRouter);
+app.use("/api/bookings", bookingRouter);
 
 // Server Initialization
 function serverPortInitialization(port) {

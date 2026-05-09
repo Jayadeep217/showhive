@@ -10,6 +10,7 @@ import AdminRoute from "./components/AdminRoute.jsx";
 import Admin from "./pages/Admin/";
 import Partner from "./pages/Partner/index.jsx";
 import MoviePage from "./pages/Movie/index.jsx";
+import BookingPage from "./pages/Booking/index.jsx";
 
 function App() {
   return (
@@ -61,6 +62,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <MoviePage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/booking/:movieId"
+            element={
+              <ProtectedRoute>
+                <BookingPage />
               </ProtectedRoute>
             }
           />

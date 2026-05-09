@@ -22,5 +22,9 @@ export const ADD_SHOW_URL = "/shows/create";
 export const GET_SHOW_URL = (id) => `/shows/${id}`;
 export const GET_SHOWS_BY_THEATER_URL = (theaterId) =>
   `/shows/theater/${theaterId}`;
+export const GET_SHOWS_BY_MOVIE_URL = "/shows/allTheatersbyMovie";
 export const UPDATE_SHOW_URL = (id) => `/shows/update/${id}`;
 export const DELETE_SHOW_URL = (id) => `/shows/delete/${id}`;
+
+export const CREATE_BOOKING_URL = "/bookings/create";
+export const GET_USER_BOOKINGS_URL = "/bookings/user";

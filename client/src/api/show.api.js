@@ -5,6 +5,7 @@ import {
   ADD_SHOW_URL,
   GET_SHOW_URL,
   GET_SHOWS_BY_THEATER_URL,
+  GET_SHOWS_BY_MOVIE_URL,
   UPDATE_SHOW_URL,
   DELETE_SHOW_URL,
 } from "../config/api.config.js";
@@ -40,6 +41,16 @@ export const getShowById = async (showId) => {
     return response.data;
   } catch (error) {
     console.error("Get show by ID error:", error);
+    throw error;
+  }
+};
+
+export const getAllTheatersbyMovie = async (movieId, date) => {
+  try {
+    const response = await api.post(GET_SHOWS_BY_MOVIE_URL, { movieId, date });
+    return response.data;
+  } catch (error) {
+    console.error("Get shows by movie error:", error);
     throw error;
   }
 };

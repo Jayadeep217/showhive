@@ -80,13 +80,18 @@ const getShowsByTheater = async (req, res) => {
 const getAllTheatersByMovie = async (req, res) => {
   try {
     const { movieId, date } = req.body;
-    const shows = await Show.find({ movie: movieId, date: date });
-    const theaters = shows.map((show) => show.theater);
+    const startOfDay = new Date(`${date}T00:00:00.000Z`);
+    const endOfDay = new Date(`${date}T23:59:59.999Z`);
+
+    const shows = await Show.find({
+      movie: movieId,
+      date: { $gte: startOfDay, $lte: endOfDay },
+    }).populate("theater");
 
     res.status(200).json({
       status: "success",
       message: "Shows retrieved successfully",
-      theaters: theaters,
+      shows,
     });
   } catch (error) {
     res.status(500).json({
