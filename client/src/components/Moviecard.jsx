@@ -1,8 +1,10 @@
 import React from "react";
 import { Tag, Button } from "antd";
 import { StarFilled, PlayCircleOutlined } from "@ant-design/icons";
+import { useNavigate } from "react-router-dom";
 
-function MovieCard({ title, posterUrl, rating, genre, language }) {
+function MovieCard({ id, title, posterUrl, rating, genre, language }) {
+  const navigate = useNavigate();
   return (
     <div className="movie-card">
       <div className="movie-card-poster-wrap">
@@ -20,6 +22,7 @@ function MovieCard({ title, posterUrl, rating, genre, language }) {
             type="primary"
             icon={<PlayCircleOutlined />}
             className="movie-card-book-btn"
+            onClick={() => navigate(`/movie/${id}`)}
           >
             Book Now
           </Button>

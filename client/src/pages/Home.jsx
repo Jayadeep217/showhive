@@ -55,6 +55,7 @@ function Home() {
           {movies.map((movieObj) => (
             <MovieCard
               key={movieObj._id || movieObj.id}
+              id={movieObj._id || movieObj.id}
               title={movieObj.title}
               posterUrl={movieObj.posterPath}
               language={movieObj.language}

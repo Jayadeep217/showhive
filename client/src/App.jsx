@@ -9,6 +9,7 @@ import PartnerRoute from "./components/PartnerRoute.jsx";
 import AdminRoute from "./components/AdminRoute.jsx";
 import Admin from "./pages/Admin/";
 import Partner from "./pages/Partner/index.jsx";
+import MoviePage from "./pages/Movie/index.jsx";
 
 function App() {
   return (
@@ -53,6 +54,14 @@ function App() {
               <PartnerRoute>
                 <Partner />
               </PartnerRoute>
+            }
+          />
+          <Route
+            path="/movie/:id"
+            element={
+              <ProtectedRoute>
+                <MoviePage />
+              </ProtectedRoute>
             }
           />
         </Routes>
