@@ -91,17 +91,81 @@
 }
 /* ── Navbar end ─────────────────────────────────────────── */
 
+/* ── Auth pages ─────────────────────────────────────────── */
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #1c1c2e 0%, #2d1b3d 55%, #1a0a0f 100%);
+  padding: 24px;
+}
+.auth-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 40px 36px;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.45);
+}
+.auth-brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+.auth-brand-icon {
+  font-size: 28px;
+  color: #b71c3c;
+}
+.auth-brand-name {
+  font-size: 24px;
+  font-weight: 700;
+  color: #b71c3c;
+  letter-spacing: 0.5px;
+}
+.auth-title {
+  font-size: 22px;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin: 0 0 4px;
+  text-align: center;
+}
+.auth-subtitle {
+  color: #888;
+  font-size: 14px;
+  margin: 0 0 24px;
+  text-align: center;
+}
+.auth-footer {
+  text-align: center;
+  margin-top: 20px;
+  color: #666;
+  font-size: 14px;
+}
+.auth-footer a {
+  color: #b71c3c;
+  font-weight: 500;
+}
+/* ── Auth pages end ──────────────────────────────────────── */
+
+/* ── Home page ───────────────────────────────────────────── */
+.home-content {
+  background: #f0f2f5;
+  min-height: calc(100vh - 64px);
+  padding: 28px;
+}
+.movies-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+/* ── Home page end ───────────────────────────────────────── */
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
-}
-.App-header {
-  background-color: #f3f8ff;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
 }
 .flex-1{
   flex: 1;

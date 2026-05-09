@@ -1,7 +1,12 @@
 import React from "react";
 import { Button, Form, Input, message } from "antd";
 import { Link, useNavigate } from "react-router-dom";
-import {useDispatch} from "react-redux";
+import { useDispatch } from "react-redux";
+import {
+  MailOutlined,
+  LockOutlined,
+  VideoCameraOutlined,
+} from "@ant-design/icons";
 
 import { login } from "../api/auth.api.js";
 import { setUserData } from "../redux/userSlice.js";
@@ -16,7 +21,7 @@ function Login() {
       if (loginResponse.status === "success") {
         message.success("Login successful!");
         dispatch(setUserData(loginResponse.data));
-        navigate("/home");        
+        navigate("/home");
       } else {
         message.error(loginResponse.message || "Login failed!");
       }
@@ -27,63 +32,48 @@ function Login() {
   };
 
   return (
-    <>
-      <header className="App-header">
-        <main className="main-area mw-500 text-center px-3">
-          <section className="left-section">
-            <h1>Login to ShowHive</h1>
-          </section>
+    <div className="auth-page">
+      <div className="auth-card">
+        <div className="auth-brand">
+          <VideoCameraOutlined className="auth-brand-icon" />
+          <span className="auth-brand-name">ShowHive</span>
+        </div>
 
-          <section className="right-section">
-            <Form layout="vertical" onFinish={onSubmit}>
-              <Form.Item
-                label="Email"
-                htmlFor="email"
-                name="email"
-                className="d-block"
-                rules={[{ required: true, message: "Email is required" }]}
-              >
-                <Input
-                  id="email"
-                  type="text"
-                  placeholder="Enter your Email"
-                ></Input>
-              </Form.Item>
+        <h2 className="auth-title">Welcome back</h2>
+        <p className="auth-subtitle">Sign in to your account</p>
 
-              <Form.Item
-                label="Password"
-                htmlFor="password"
-                name="password"
-                className="d-block"
-                rules={[{ required: true, message: "Password is required" }]}
-              >
-                <Input
-                  id="password"
-                  type="password"
-                  placeholder="Enter your Password"
-                ></Input>
-              </Form.Item>
+        <Form layout="vertical" onFinish={onSubmit}>
+          <Form.Item
+            label="Email"
+            name="email"
+            rules={[{ required: true, message: "Email is required" }]}
+          >
+            <Input prefix={<MailOutlined />} placeholder="Enter your email" />
+          </Form.Item>
 
-              <Form.Item className="d-block">
-                <Button
-                  type="primary"
-                  block
-                  htmlType="submit"
-                  style={{ fontSize: "1rem", fontWeight: "600" }}
-                >
-                  Login
-                </Button>
-              </Form.Item>
-            </Form>
-            <div>
-              <p>
-                New User? <Link to="/register">Register Here</Link>
-              </p>
-            </div>
-          </section>
-        </main>
-      </header>
-    </>
+          <Form.Item
+            label="Password"
+            name="password"
+            rules={[{ required: true, message: "Password is required" }]}
+          >
+            <Input.Password
+              prefix={<LockOutlined />}
+              placeholder="Enter your password"
+            />
+          </Form.Item>
+
+          <Form.Item style={{ marginBottom: 0 }}>
+            <Button type="primary" block htmlType="submit">
+              Sign In
+            </Button>
+          </Form.Item>
+        </Form>
+
+        <p className="auth-footer">
+          New here? <Link to="/register">Create an account</Link>
+        </p>
+      </div>
+    </div>
   );
 }
 

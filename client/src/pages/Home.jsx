@@ -50,24 +50,19 @@ function Home() {
   return (
     <>
       <Navbar userData={userData} onSearch={onSearch} onLogout={onLogout} />
-      <div
-        style={{
-          display: "flex",
-          flexWrap: "wrap",
-          gap: "20px",
-          padding: "20px",
-        }}
-      >
-        {movies.map((movieObj) => (
-          <MovieCard
-            key={movieObj._id || movieObj.id}
-            title={movieObj.title}
-            posterUrl={movieObj.posterPath}
-            language={movieObj.language}
-            rating={movieObj.ratings}
-            genre={movieObj.genre}
-          />
-        ))}
+      <div className="home-content">
+        <div className="movies-grid">
+          {movies.map((movieObj) => (
+            <MovieCard
+              key={movieObj._id || movieObj.id}
+              title={movieObj.title}
+              posterUrl={movieObj.posterPath}
+              language={movieObj.language}
+              rating={movieObj.ratings}
+              genre={movieObj.genre}
+            />
+          ))}
+        </div>
       </div>
     </>
   );
