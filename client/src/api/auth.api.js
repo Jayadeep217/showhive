@@ -3,6 +3,7 @@ import axios from "axios";
 import {
   API_URL,
   LOGIN_URL,
+  LOGOUT_URL,
   REGISTER_URL,
   USER_URL,
   UPDATE_PASSWORD_URL,
@@ -43,6 +44,16 @@ export const getUser = async () => {
     return response.data;
   } catch (error) {
     console.error("Get user error:", error);
+    throw error;
+  }
+};
+
+export const logout = async () => {
+  try {
+    const response = await api.post(LOGOUT_URL);
+    return response.data;
+  } catch (error) {
+    console.error("Logout error:", error);
     throw error;
   }
 };

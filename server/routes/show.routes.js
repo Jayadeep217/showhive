@@ -10,14 +10,29 @@ const {
   deleteShow,
 } = require("../controllers/show.controller.js");
 
-const { authorize } = require("../middlewares/auth.middleware.js");
+const { authorize, requireRole } = require("../middlewares/auth.middleware.js");
 
 showRouter.get("/all", getAllShows);
 showRouter.get("/theater/:theaterId", getShowsByTheater);
 showRouter.post("/allTheatersbyMovie", getAllTheatersByMovie);
-showRouter.post("/create", createShow);
-showRouter.put("/update/:id", updateShow);
-showRouter.delete("/delete/:id", deleteShow);
+showRouter.post(
+  "/create",
+  authorize,
+  requireRole("partner", "admin"),
+  createShow,
+);
+showRouter.put(
+  "/update/:id",
+  authorize,
+  requireRole("partner", "admin"),
+  updateShow,
+);
+showRouter.delete(
+  "/delete/:id",
+  authorize,
+  requireRole("partner", "admin"),
+  deleteShow,
+);
 showRouter.get("/:id", getShowById);
 
 module.exports = showRouter;

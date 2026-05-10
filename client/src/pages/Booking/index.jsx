@@ -5,6 +5,7 @@ import { ArrowLeftOutlined, EnvironmentOutlined } from "@ant-design/icons";
 import Navbar from "../../components/Navbar.jsx";
 import { useDispatch, useSelector } from "react-redux";
 import { getUser } from "../../api/auth.api.js";
+import { useLogout } from "../../hooks/useLogout.js";
 import { setUserData } from "../../redux/userSlice.js";
 import { getAllTheatersbyMovie } from "../../api/show.api.js";
 import { createBooking } from "../../api/booking.api.js";
@@ -111,10 +112,7 @@ function BookingPage() {
     }
   };
 
-  const onLogout = () => {
-    dispatch(setUserData(null));
-    navigate("/login");
-  };
+  const onLogout = useLogout();
 
   const generateSeats = (totalSeats) => {
     const seats = [];

@@ -9,13 +9,28 @@ const {
   deleteTheater,
 } = require("../controllers/theater.controller.js");
 
-const { authorize } = require("../middlewares/auth.middleware.js");
+const { authorize, requireRole } = require("../middlewares/auth.middleware.js");
 
 theaterRouter.get("/all", getAllTheaters);
-theaterRouter.get("/partner/:id", getPartnerTheaters);
+theaterRouter.get("/partner/my", authorize, getPartnerTheaters);
 theaterRouter.get("/:id", getTheaterById);
-theaterRouter.post("/create", createTheater);
-theaterRouter.put("/update/:id", updateTheater);
-theaterRouter.delete("/delete/:id", deleteTheater);
+theaterRouter.post(
+  "/create",
+  authorize,
+  requireRole("partner", "admin"),
+  createTheater,
+);
+theaterRouter.put(
+  "/update/:id",
+  authorize,
+  requireRole("partner", "admin"),
+  updateTheater,
+);
+theaterRouter.delete(
+  "/delete/:id",
+  authorize,
+  requireRole("partner", "admin"),
+  deleteTheater,
+);
 
 module.exports = theaterRouter;

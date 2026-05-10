@@ -9,6 +9,7 @@ import {
 import Navbar from "../../components/Navbar.jsx";
 import { useDispatch, useSelector } from "react-redux";
 import { getUser, updatePassword } from "../../api/auth.api.js";
+import { useLogout } from "../../hooks/useLogout.js";
 import { setUserData } from "../../redux/userSlice.js";
 
 function ProfilePage() {
@@ -31,10 +32,7 @@ function ProfilePage() {
     fetch();
   }, [dispatch]);
 
-  const onLogout = () => {
-    dispatch(setUserData(null));
-    navigate("/login");
-  };
+  const onLogout = useLogout();
 
   const handlePasswordUpdate = async (values) => {
     setPwdLoading(true);

@@ -16,12 +16,11 @@ function TheaterManagement() {
   const [isShowsModalOpen, setIsShowsModalOpen] = useState(false);
   const [showsTheater, setShowsTheater] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [ownerId, setOwnerId] = useState(null);
   const dispatch = useDispatch();
 
-  const fetchTheaters = async (owner) => {
+  const fetchTheaters = async () => {
     try {
-      const response = await getPartnerTheaters(owner);
+      const response = await getPartnerTheaters();
       return response?.theaters || [];
     } catch (error) {
       message.error(error.message);
@@ -29,10 +28,10 @@ function TheaterManagement() {
     }
   };
 
-  const loadTheaters = async (owner) => {
+  const loadTheaters = async () => {
     try {
       setLoading(true);
-      const theatersData = await fetchTheaters(owner);
+      const theatersData = await fetchTheaters();
       setTheaters(theatersData);
     } finally {
       setLoading(false);
@@ -48,12 +47,8 @@ function TheaterManagement() {
         const userData = await getUser();
         dispatch(setUserData(userData?.data || null));
 
-        if (userData?.data?._id) {
-          const owner = userData.data._id;
-          setOwnerId(owner);
-          const theatersData = await fetchTheaters(owner);
-          if (!ignore) setTheaters(theatersData);
-        }
+        const theatersData = await fetchTheaters();
+        if (!ignore) setTheaters(theatersData);
       } finally {
         if (!ignore) setLoading(false);
       }
@@ -69,7 +64,7 @@ function TheaterManagement() {
     try {
       await deleteTheater(theater._id);
       message.success(`"${theater.name}" deleted successfully.`);
-      await loadTheaters(ownerId);
+      await loadTheaters();
     } catch (error) {
       message.error(error.message);
     }
@@ -161,8 +156,7 @@ function TheaterManagement() {
           setIsModalOpen={handleCloseModal}
           formType={formType}
           selectedTheater={selectedTheater}
-          refreshTheaters={() => loadTheaters(ownerId)}
-          ownerId={ownerId}
+          refreshTheaters={loadTheaters}
         />
       )}
 

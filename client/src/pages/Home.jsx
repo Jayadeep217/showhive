@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-
 import { getUser } from "../api/auth.api.js";
 import { setUserData } from "../redux/userSlice.js";
+import { useLogout } from "../hooks/useLogout.js";
 import { getAllMovies } from "../api/movie.api.js";
 
 import Navbar from "../components/Navbar.jsx";
@@ -13,7 +12,6 @@ function Home() {
   const [movies, setMovies] = useState([]);
   const userData = useSelector((state) => state.user.user);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -42,10 +40,7 @@ function Home() {
     console.log("Search:", value);
   };
 
-  const onLogout = () => {
-    dispatch(setUserData(null));
-    navigate("/login");
-  };
+  const onLogout = useLogout();
 
   return (
     <>

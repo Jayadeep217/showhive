@@ -11,6 +11,7 @@ import Navbar from "../../components/Navbar.jsx";
 import { useDispatch, useSelector } from "react-redux";
 import { getUser } from "../../api/auth.api.js";
 import { setUserData } from "../../redux/userSlice.js";
+import { useLogout } from "../../hooks/useLogout.js";
 import { getUserBookings } from "../../api/booking.api.js";
 import dayjs from "dayjs";
 
@@ -40,10 +41,7 @@ function BookingsPage() {
     init();
   }, [dispatch]);
 
-  const onLogout = () => {
-    dispatch(setUserData(null));
-    navigate("/login");
-  };
+  const onLogout = useLogout();
 
   return (
     <>

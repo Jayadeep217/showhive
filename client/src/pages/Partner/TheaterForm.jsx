@@ -8,7 +8,6 @@ function TheaterForm({
   formType,
   selectedTheater,
   refreshTheaters,
-  ownerId,
 }) {
   const [form] = Form.useForm();
 
@@ -22,10 +21,7 @@ function TheaterForm({
 
   const onFinish = async (values) => {
     try {
-      const payload = {
-        ...values,
-        ...(formType === "add" && { owner: ownerId }),
-      };
+      const payload = { ...values };
 
       const actionMap = {
         add: () => addNewTheater(payload),

@@ -2,7 +2,7 @@ const Theater = require("../models/theater.model.js");
 
 const createTheater = async (req, res) => {
   try {
-    const newTheater = new Theater(req.body);
+    const newTheater = new Theater({ ...req.body, owner: req.userId });
     await newTheater.save();
     res.status(201).json({
       status: "success",
@@ -37,17 +37,11 @@ const getAllTheaters = async (req, res) => {
 
 const getPartnerTheaters = async (req, res) => {
   try {
-    const theaters = await Theater.find({ owner: req.params.id });
-    if (!theaters) {
-      return res.status(404).json({
-        status: "error",
-        message: "No theaters found for this partner",
-      });
-    }
+    const theaters = await Theater.find({ owner: req.userId });
     res.status(200).json({
       status: "success",
       message: "Partner theaters retrieved successfully",
-      theaters: theaters,
+      theaters,
     });
   } catch (error) {
     res.status(500).json({
