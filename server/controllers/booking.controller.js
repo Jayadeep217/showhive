@@ -32,9 +32,18 @@ const createBooking = async (req, res) => {
     show.bookedSeats.push(...seats);
     await show.save();
 
+    const populated = await booking.populate({
+      path: "show",
+      populate: [{ path: "movie" }, { path: "theater" }],
+    });
+
     res
       .status(201)
-      .json({ status: "success", message: "Booking confirmed", booking });
+      .json({
+        status: "success",
+        message: "Booking confirmed",
+        booking: populated,
+      });
   } catch (error) {
     res.status(500).json({
       status: "error",
@@ -46,10 +55,12 @@ const createBooking = async (req, res) => {
 
 const getUserBookings = async (req, res) => {
   try {
-    const bookings = await Booking.find({ user: req.userId }).populate({
-      path: "show",
-      populate: [{ path: "movie" }, { path: "theater" }],
-    });
+    const bookings = await Booking.find({ user: req.userId })
+      .sort({ createdAt: -1 })
+      .populate({
+        path: "show",
+        populate: [{ path: "movie" }, { path: "theater" }],
+      });
     res.status(200).json({ status: "success", bookings });
   } catch (error) {
     res.status(500).json({

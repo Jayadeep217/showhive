@@ -8,7 +8,9 @@ import { getUser } from "../../api/auth.api.js";
 import { useLogout } from "../../hooks/useLogout.js";
 import { setUserData } from "../../redux/userSlice.js";
 import { getAllTheatersbyMovie } from "../../api/show.api.js";
+import { parseTime } from "../../utils/time.js";
 import { createBooking } from "../../api/booking.api.js";
+import TicketModal from "../../components/TicketModal.jsx";
 import dayjs from "dayjs";
 
 const DATE_STRIP_DAYS = 7;
@@ -30,6 +32,8 @@ function BookingPage() {
   const [selectedShow, setSelectedShow] = useState(null);
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [bookingLoading, setBookingLoading] = useState(false);
+  const [confirmedBooking, setConfirmedBooking] = useState(null);
+  const [ticketModalOpen, setTicketModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -99,10 +103,13 @@ function BookingPage() {
     }
     setBookingLoading(true);
     try {
-      await createBooking({ showId: selectedShow._id, seats: selectedSeats });
-      message.success("Booking confirmed! Enjoy the movie.");
+      const res = await createBooking({
+        showId: selectedShow._id,
+        seats: selectedSeats,
+      });
       setSeatModalOpen(false);
-      navigate("/home");
+      setConfirmedBooking(res.booking);
+      setTicketModalOpen(true);
     } catch (err) {
       message.error(
         err.response?.data?.message || "Booking failed. Please try again.",
@@ -192,9 +199,7 @@ function BookingPage() {
           ) : theaterGroups.length === 0 ? (
             <div className="booking-no-shows">
               <p>No shows available on {selectedDate.format("MMMM D")}.</p>
-              <p style={{ color: "#bbb", fontSize: 13 }}>
-                Try another date.
-              </p>
+              <p style={{ color: "#bbb", fontSize: 13 }}>Try another date.</p>
             </div>
           ) : (
             theaterGroups.map(({ theater, shows }) => (
@@ -209,7 +214,7 @@ function BookingPage() {
                 </div>
                 <div className="theater-showtimes">
                   {[...shows]
-                    .sort((a, b) => a.time.localeCompare(b.time))
+                    .sort((a, b) => parseTime(a.time) - parseTime(b.time))
                     .map((show) => {
                       const seatsLeft =
                         show.totalSeats - show.bookedSeats.length;
@@ -218,9 +223,7 @@ function BookingPage() {
                         <button
                           key={show._id}
                           className={`showtime-btn ${soldOut ? "sold-out" : ""}`}
-                          onClick={() =>
-                            !soldOut && handleShowTimeClick(show)
-                          }
+                          onClick={() => !soldOut && handleShowTimeClick(show)}
                           disabled={soldOut}
                         >
                           <span className="showtime-time">{show.time}</span>
@@ -260,6 +263,7 @@ function BookingPage() {
           )
         }
         destroyOnClose
+        className="seat-selection-modal"
       >
         <div className="seat-modal-body">
           <div className="booking-screen-wrap">
@@ -305,10 +309,7 @@ function BookingPage() {
                 <p className="m-0">
                   Seats: <strong>{selectedSeats.join(", ")}</strong>
                 </p>
-                <p
-                  className="m-0 mt-8"
-                  style={{ color: "#888", fontSize: 13 }}
-                >
+                <p className="m-0 mt-8" style={{ color: "#888", fontSize: 13 }}>
                   {selectedSeats.length} × ₹{selectedShow?.ticketPrice}
                 </p>
               </div>
@@ -334,6 +335,15 @@ function BookingPage() {
           </Button>
         </div>
       </Modal>
+
+      <TicketModal
+        open={ticketModalOpen}
+        booking={confirmedBooking}
+        onClose={() => {
+          setTicketModalOpen(false);
+          navigate("/home");
+        }}
+      />
     </>
   );
 }

@@ -4,6 +4,7 @@ import { EditOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import { getShowsByTheater, deleteShow } from "../../api/show.api";
 import ShowForm from "./ShowForm.jsx";
 import moment from "moment";
+import { parseTime } from "../../utils/time.js";
 
 function ShowsModal({ isModalOpen, onCancel, theater }) {
   const [shows, setShows] = useState([]);
@@ -17,7 +18,12 @@ function ShowsModal({ isModalOpen, onCancel, theater }) {
     try {
       setLoading(true);
       const response = await getShowsByTheater(theater._id);
-      setShows(response?.shows || []);
+      const sorted = (response?.shows || []).sort((a, b) => {
+        const dateDiff = new Date(a.date) - new Date(b.date);
+        if (dateDiff !== 0) return dateDiff;
+        return parseTime(a.time) - parseTime(b.time);
+      });
+      setShows(sorted);
     } catch (error) {
       message.error(error.message);
     } finally {

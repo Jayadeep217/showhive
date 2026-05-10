@@ -1205,12 +1205,18 @@ hr {
   border-radius: 14px;
   padding: 16px;
   align-items: flex-start;
-  box-shadow: 0 4px 16px rgba(183, 28, 60, 0.07), 0 1px 4px rgba(0,0,0,0.06);
-  transition: box-shadow 0.2s, transform 0.2s;
+  box-shadow:
+    0 4px 16px rgba(183, 28, 60, 0.07),
+    0 1px 4px rgba(0, 0, 0, 0.06);
+  transition:
+    box-shadow 0.2s,
+    transform 0.2s;
 }
 
 .booking-card:hover {
-  box-shadow: 0 8px 28px rgba(183, 28, 60, 0.14), 0 2px 8px rgba(0,0,0,0.08);
+  box-shadow:
+    0 8px 28px rgba(183, 28, 60, 0.14),
+    0 2px 8px rgba(0, 0, 0, 0.08);
   transform: translateY(-2px);
 }
 
@@ -1335,7 +1341,9 @@ hr {
   background: #fff;
   border-radius: 14px;
   padding: 28px 24px;
-  box-shadow: 0 4px 24px rgba(183, 28, 60, 0.08), 0 1px 4px rgba(0,0,0,0.06);
+  box-shadow:
+    0 4px 24px rgba(183, 28, 60, 0.08),
+    0 1px 4px rgba(0, 0, 0, 0.06);
 }
 
 .profile-avatar {
@@ -1380,7 +1388,9 @@ hr {
   background: #fff;
   border-radius: 14px;
   padding: 24px;
-  box-shadow: 0 4px 24px rgba(183, 28, 60, 0.08), 0 1px 4px rgba(0,0,0,0.06);
+  box-shadow:
+    0 4px 24px rgba(183, 28, 60, 0.08),
+    0 1px 4px rgba(0, 0, 0, 0.06);
 }
 
 .profile-section-title {
@@ -1404,4 +1414,223 @@ hr {
 .bookings-page .booking-back-btn:hover,
 .profile-page .booking-back-btn:hover {
   background: #fff5f7;
+}
+
+/* ── Ticket Modal ────────────────────────────────────────── */
+.ticket-wrap {
+  border-radius: 16px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.ticket-header {
+  background: linear-gradient(135deg, #b71c3c, #e53935);
+  color: #fff;
+  padding: 18px 20px 16px;
+  text-align: center;
+}
+
+.ticket-success-icon {
+  font-size: 32px;
+  color: #fff;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.ticket-success-title {
+  color: #fff;
+  font-size: 17px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.ticket-body {
+  padding: 14px 18px 18px;
+}
+
+.ticket-movie-row {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  margin-bottom: 14px;
+}
+
+.ticket-poster {
+  width: 52px;
+  height: 76px;
+  object-fit: cover;
+  border-radius: 6px;
+  flex-shrink: 0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.ticket-movie-info {
+  flex: 1;
+}
+
+.ticket-movie-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin: 0 0 3px;
+}
+
+.ticket-movie-genre {
+  font-size: 12px;
+  color: #888;
+  margin: 0 0 7px;
+}
+
+.ticket-status-tag {
+  font-size: 10px;
+  font-weight: 600;
+}
+
+/* Perforated divider */
+.ticket-divider {
+  display: flex;
+  align-items: center;
+  margin: 0 -18px 14px;
+  position: relative;
+}
+
+.ticket-notch {
+  width: 16px;
+  height: 16px;
+  background: #f5f5f5;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.ticket-notch-left {
+  margin-left: -8px;
+  border: 1px solid #eee;
+  border-left: none;
+}
+
+.ticket-notch-right {
+  margin-right: -8px;
+  border: 1px solid #eee;
+  border-right: none;
+}
+
+.ticket-dashes {
+  flex: 1;
+  border-top: 2px dashed #e0e0e0;
+  margin: 0 4px;
+}
+
+/* Detail rows */
+.ticket-details {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.ticket-detail-row {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.ticket-icon {
+  font-size: 13px;
+  color: #b71c3c;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.ticket-detail-label {
+  font-size: 10px;
+  color: #aaa;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin: 0 0 1px;
+}
+
+.ticket-detail-value {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1a1a2e;
+  margin: 0;
+}
+
+/* Seats */
+.ticket-seats-section {
+  margin-bottom: 14px;
+}
+
+.ticket-seats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 5px;
+}
+
+.ticket-seat-chip {
+  background: #fff0f3;
+  border: 1px solid #f5c6d0;
+  color: #b71c3c;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 20px;
+}
+
+/* Footer */
+.ticket-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 12px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.ticket-total-amount {
+  font-size: 18px;
+  font-weight: 800;
+  color: #b71c3c;
+  margin: 0;
+}
+
+/* Booking ID strip at the bottom of the ticket */
+.ticket-id-strip {
+  margin-bottom: 14px;
+  padding: 10px 14px;
+  background: #f9f0f2;
+  border: 1px dashed #f5c6d0;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ticket-id-label {
+  font-size: 9px;
+  font-weight: 700;
+  color: #b71c3c;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.ticket-id-value {
+  font-family: "Courier New", Courier, monospace;
+  font-size: 14px;
+  font-weight: 700;
+  color: #1a1a2e;
+  letter-spacing: 0.12em;
+}
+
+/* Clickable booking card */
+.booking-card-clickable {
+  cursor: pointer;
+  transition:
+    box-shadow 0.18s,
+    transform 0.18s;
+}
+
+.booking-card-clickable:hover {
+  box-shadow: 0 6px 24px rgba(183, 28, 60, 0.13);
+  transform: translateY(-2px);
 }

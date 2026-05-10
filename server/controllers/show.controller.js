@@ -60,9 +60,9 @@ const getShowById = async (req, res) => {
 
 const getShowsByTheater = async (req, res) => {
   try {
-    const shows = await Show.find({ theater: req.params.theaterId }).populate(
-      "movie",
-    );
+    const shows = await Show.find({ theater: req.params.theaterId })
+      .populate("movie")
+      .sort({ date: 1 });
     res.status(200).json({
       status: "success",
       message: "Shows retrieved successfully",
@@ -86,7 +86,9 @@ const getAllTheatersByMovie = async (req, res) => {
     const shows = await Show.find({
       movie: movieId,
       date: { $gte: startOfDay, $lte: endOfDay },
-    }).populate("theater");
+    })
+      .populate("theater")
+      .sort({ date: 1 });
 
     res.status(200).json({
       status: "success",

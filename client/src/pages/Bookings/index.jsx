@@ -8,6 +8,7 @@ import {
   EnvironmentOutlined,
 } from "@ant-design/icons";
 import Navbar from "../../components/Navbar.jsx";
+import TicketModal from "../../components/TicketModal.jsx";
 import { useDispatch, useSelector } from "react-redux";
 import { getUser } from "../../api/auth.api.js";
 import { setUserData } from "../../redux/userSlice.js";
@@ -22,6 +23,7 @@ function BookingsPage() {
 
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [ticketBooking, setTicketBooking] = useState(null);
 
   useEffect(() => {
     const init = async () => {
@@ -77,7 +79,11 @@ function BookingsPage() {
                 : "—";
 
               return (
-                <div key={booking._id} className="booking-card">
+                <div
+                  key={booking._id}
+                  className="booking-card booking-card-clickable"
+                  onClick={() => setTicketBooking(booking)}
+                >
                   <div className="booking-card-poster-wrap">
                     {movie.posterPath ? (
                       <img
@@ -140,6 +146,12 @@ function BookingsPage() {
           </div>
         )}
       </div>
+
+      <TicketModal
+        open={!!ticketBooking}
+        booking={ticketBooking}
+        onClose={() => setTicketBooking(null)}
+      />
     </>
   );
 }
