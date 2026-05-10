@@ -4,6 +4,7 @@ export const LOGIN_URL = "/auth/login";
 export const REGISTER_URL = "/auth/register";
 export const LOGOUT_URL = "/auth/logout";
 export const USER_URL = "/auth/user";
+export const REQUEST_OTP_URL = "/auth/otp/request";
 export const UPDATE_PASSWORD_URL = "/auth/password";
 
 export const ALL_MOVIES_URL = "/movies/all";

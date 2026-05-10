@@ -1,5 +1,7 @@
 const Booking = require("../models/booking.model.js");
 const Show = require("../models/show.model.js");
+const User = require("../models/user.model.js");
+const { sendBookingConfirmation } = require("../utils/email.utils.js");
 
 const createBooking = async (req, res) => {
   try {
@@ -37,13 +39,14 @@ const createBooking = async (req, res) => {
       populate: [{ path: "movie" }, { path: "theater" }],
     });
 
-    res
-      .status(201)
-      .json({
-        status: "success",
-        message: "Booking confirmed",
-        booking: populated,
-      });
+    res.status(201).json({ status: "success", message: "Booking confirmed", booking: populated });
+
+    // Send confirmation email — non-blocking, failure doesn't affect the booking
+    User.findById(userId).select("name email").then((user) => {
+      if (user) sendBookingConfirmation(user, booking, populated.show).catch((err) =>
+        console.error("Booking email error:", err.message),
+      );
+    });
   } catch (error) {
     res.status(500).json({
       status: "error",

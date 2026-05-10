@@ -1,6 +1,7 @@
 const User = require("../models/user.model.js");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const { sendPasswordOTP } = require("../utils/email.utils.js");
 
 const registerUser = async (req, res) => {
   try {
@@ -83,14 +84,12 @@ const loginUser = async (req, res) => {
 
 const logoutUser = (req, res) => {
   res.clearCookie("jwt_token");
-  res
-    .status(200)
-    .json({ status: "success", message: "Logged out successfully." });
+  res.status(200).json({ status: "success", message: "Logged out successfully." });
 };
 
 const getUser = async (req, res) => {
   try {
-    const user = await User.findById(req.userId).select("-password");
+    const user = await User.findById(req.userId).select("-password -otp -otpExpiry");
 
     if (!user) {
       return res.status(404).json({
@@ -114,31 +113,56 @@ const getUser = async (req, res) => {
   }
 };
 
+const requestOtp = async (req, res) => {
+  try {
+    const user = await User.findById(req.userId);
+    if (!user) {
+      return res.status(404).json({ status: "error", message: "User not found!" });
+    }
+
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    user.otp = otp;
+    user.otpExpiry = new Date(Date.now() + 10 * 60 * 1000);
+    await user.save();
+
+    await sendPasswordOTP(user, otp);
+
+    res.status(200).json({ status: "success", message: "OTP sent to your email." });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      status: "error",
+      message: "Failed to send OTP. Check your email configuration.",
+      error: error.message,
+    });
+  }
+};
+
 const updatePassword = async (req, res) => {
   try {
-    const { currentPassword, newPassword } = req.body;
+    const { currentPassword, newPassword, otp } = req.body;
     const user = await User.findById(req.userId);
 
     if (!user) {
-      return res
-        .status(404)
-        .json({ status: "error", message: "User not found!" });
+      return res.status(404).json({ status: "error", message: "User not found!" });
+    }
+
+    if (!user.otp || !user.otpExpiry || user.otp !== otp || new Date() > user.otpExpiry) {
+      return res.status(400).json({ status: "error", message: "Invalid or expired OTP." });
     }
 
     const isValid = await bcrypt.compare(currentPassword, user.password);
     if (!isValid) {
-      return res
-        .status(400)
-        .json({ status: "error", message: "Current password is incorrect." });
+      return res.status(400).json({ status: "error", message: "Current password is incorrect." });
     }
 
     user.password = await bcrypt.hash(newPassword, 10);
+    user.otp = null;
+    user.otpExpiry = null;
     await user.save();
 
     res.clearCookie("jwt_token");
-    res
-      .status(200)
-      .json({ status: "success", message: "Password updated successfully." });
+    res.status(200).json({ status: "success", message: "Password updated successfully." });
   } catch (error) {
     res.status(500).json({
       status: "error",
@@ -148,10 +172,4 @@ const updatePassword = async (req, res) => {
   }
 };
 
-module.exports = {
-  registerUser,
-  loginUser,
-  logoutUser,
-  getUser,
-  updatePassword,
-};
+module.exports = { registerUser, loginUser, logoutUser, getUser, requestOtp, updatePassword };

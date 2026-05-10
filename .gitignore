@@ -1,8 +1,12 @@
-#custom
+#custom project related
 showhive.movies.json
 showhive.shows.json
 showhive.users.json
 showhive.theaters.json
+generate_report_pdf.js
+ShowHive_Project_Report.*
+
+
 
 # Logs
 logs
