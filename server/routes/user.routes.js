@@ -4,11 +4,13 @@ const {
   loginUser,
   registerUser,
   getUser,
+  updatePassword,
 } = require("../controllers/user.controller.js");
 const { authorize } = require("../middlewares/auth.middleware.js");
 
 userRouter.post("/register", registerUser);
 userRouter.post("/login", loginUser);
 userRouter.get("/user", authorize, getUser);
+userRouter.put("/password", authorize, updatePassword);
 
 module.exports = userRouter;

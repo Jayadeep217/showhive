@@ -29,7 +29,7 @@ const registerUser = async (req, res) => {
     res.status(500).json({
       status: "error",
       message: "Error registering user",
-      error: error.message
+      error: error.message,
     });
   }
 };
@@ -75,7 +75,7 @@ const loginUser = async (req, res) => {
     res.status(500).json({
       status: "error",
       message: "Error logging in user",
-      error: error.message
+      error: error.message,
     });
   }
 };
@@ -102,9 +102,43 @@ const getUser = async (req, res) => {
     res.status(500).json({
       status: "error",
       message: "Error retrieving user data",
-      error: error.message
+      error: error.message,
     });
   }
 };
 
-module.exports = { registerUser, loginUser, getUser };
+const updatePassword = async (req, res) => {
+  try {
+    const { currentPassword, newPassword } = req.body;
+    const user = await User.findById(req.userId);
+
+    if (!user) {
+      return res
+        .status(404)
+        .json({ status: "error", message: "User not found!" });
+    }
+
+    const isValid = await bcrypt.compare(currentPassword, user.password);
+    if (!isValid) {
+      return res
+        .status(400)
+        .json({ status: "error", message: "Current password is incorrect." });
+    }
+
+    user.password = await bcrypt.hash(newPassword, 10);
+    await user.save();
+
+    res.clearCookie("jwt_token");
+    res.status(200).json({ status: "success", message: "Password updated successfully." });
+  } catch (error) {
+    res
+      .status(500)
+      .json({
+        status: "error",
+        message: "Error updating password",
+        error: error.message,
+      });
+  }
+};
+
+module.exports = { registerUser, loginUser, getUser, updatePassword };

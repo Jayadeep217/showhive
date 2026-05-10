@@ -5,6 +5,7 @@ import {
   LOGIN_URL,
   REGISTER_URL,
   USER_URL,
+  UPDATE_PASSWORD_URL,
 } from "../config/api.config.js";
 
 const api = axios.create({
@@ -38,12 +39,23 @@ export const register = async (name, email, password) => {
 
 export const getUser = async () => {
   try {
-    const response = await api.get(USER_URL, {
-      withCredentials: true,
-    });
+    const response = await api.get(USER_URL, { withCredentials: true });
     return response.data;
   } catch (error) {
     console.error("Get user error:", error);
+    throw error;
+  }
+};
+
+export const updatePassword = async (currentPassword, newPassword) => {
+  try {
+    const response = await api.put(UPDATE_PASSWORD_URL, {
+      currentPassword,
+      newPassword,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Update password error:", error);
     throw error;
   }
 };

@@ -7,6 +7,7 @@ import {
   VideoCameraOutlined,
   DashboardOutlined,
   DownOutlined,
+  BookOutlined,
 } from "@ant-design/icons";
 
 const { Header } = Layout;
@@ -18,7 +19,6 @@ function Navbar({ userData, onSearch, onLogout }) {
   const dashboardPath = userData?.role === "admin" ? "/admin" : "/partner";
   const hasDashboard =
     userData?.role === "admin" || userData?.role === "partner";
-
   const menuItems = [
     ...(hasDashboard
       ? [
@@ -26,6 +26,21 @@ function Navbar({ userData, onSearch, onLogout }) {
             key: "dashboard",
             icon: <DashboardOutlined />,
             label: <Link to={dashboardPath}>My Dashboard</Link>,
+          },
+          { type: "divider" },
+        ]
+      : []),
+    ...(userData
+      ? [
+          {
+            key: "profile",
+            icon: <UserOutlined />,
+            label: <Link to="/profile">My Profile</Link>,
+          },
+          {
+            key: "bookings",
+            icon: <BookOutlined />,
+            label: <Link to="/bookings">My Bookings</Link>,
           },
           { type: "divider" },
         ]
@@ -51,7 +66,7 @@ function Navbar({ userData, onSearch, onLogout }) {
       <div className="navbar-search-wrap">
         <Input
           placeholder="Search movies..."
-          onPressEnter={(e) => onSearch(e.target.value)}
+          onPressEnter={(e) => onSearch?.(e.target.value)}
           prefix={<SearchOutlined className="navbar-search-icon" />}
           allowClear
           className="navbar-search"

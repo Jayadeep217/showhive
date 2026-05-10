@@ -11,6 +11,8 @@ import Admin from "./pages/Admin/";
 import Partner from "./pages/Partner/index.jsx";
 import MoviePage from "./pages/Movie/index.jsx";
 import BookingPage from "./pages/Booking/index.jsx";
+import BookingsPage from "./pages/Bookings/index.jsx";
+import ProfilePage from "./pages/Profile/index.jsx";
 
 function App() {
   return (
@@ -70,6 +72,22 @@ function App() {
             element={
               <ProtectedRoute>
                 <BookingPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/bookings"
+            element={
+              <ProtectedRoute>
+                <BookingsPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <ProfilePage />
               </ProtectedRoute>
             }
           />

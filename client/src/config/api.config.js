@@ -3,6 +3,7 @@ export const API_URL = "http://localhost:54325/api";
 export const LOGIN_URL = "/auth/login";
 export const REGISTER_URL = "/auth/register";
 export const USER_URL = "/auth/user";
+export const UPDATE_PASSWORD_URL = "/auth/password";
 
 export const ALL_MOVIES_URL = "/movies/all";
 export const ADD_MOVIE_URL = "/movies/create";
