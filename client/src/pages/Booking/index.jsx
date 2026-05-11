@@ -9,7 +9,7 @@ import { useLogout } from "../../hooks/useLogout.js";
 import { setUserData } from "../../redux/userSlice.js";
 import { getAllTheatersbyMovie } from "../../api/show.api.js";
 import { parseTime } from "../../utils/time.js";
-import { createBooking } from "../../api/booking.api.js";
+import { createOrder, verifyPayment } from "../../api/booking.api.js";
 import TicketModal from "../../components/TicketModal.jsx";
 import dayjs from "dayjs";
 
@@ -103,18 +103,61 @@ function BookingPage() {
     }
     setBookingLoading(true);
     try {
-      const res = await createBooking({
+      const order = await createOrder({
         showId: selectedShow._id,
         seats: selectedSeats,
       });
-      setSeatModalOpen(false);
-      setConfirmedBooking(res.booking);
-      setTicketModalOpen(true);
+
+      const options = {
+        key: order.keyId,
+        amount: order.amount,
+        currency: order.currency,
+        order_id: order.orderId,
+        name: "ShowHive",
+        description: `${selectedSeats.length} seat${selectedSeats.length > 1 ? "s" : ""} – ${selectedShow.time}`,
+        image: "/favicon.svg",
+        handler: async (response) => {
+          try {
+            const res = await verifyPayment({
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_signature: response.razorpay_signature,
+              showId: selectedShow._id,
+              seats: selectedSeats,
+            });
+            setSeatModalOpen(false);
+            setConfirmedBooking(res.booking);
+            setTicketModalOpen(true);
+          } catch (err) {
+            message.error(
+              err.response?.data?.message ||
+                "Payment verification failed. Contact support.",
+            );
+          }
+        },
+        prefill: {
+          name: userData?.name || "",
+          email: userData?.email || "",
+        },
+        theme: { color: "#e94560" },
+        modal: {
+          ondismiss: () => setBookingLoading(false),
+        },
+      };
+
+      const rzp = new window.Razorpay(options);
+      rzp.on("payment.failed", (response) => {
+        message.error(
+          response.error?.description || "Payment failed. Please try again.",
+        );
+        setBookingLoading(false);
+      });
+      rzp.open();
     } catch (err) {
       message.error(
-        err.response?.data?.message || "Booking failed. Please try again.",
+        err.response?.data?.message ||
+          "Could not initiate payment. Please try again.",
       );
-    } finally {
       setBookingLoading(false);
     }
   };

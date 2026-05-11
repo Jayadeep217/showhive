@@ -1,4 +1,5 @@
 const Show = require("../models/show.model.js");
+const Theater = require("../models/theater.model.js");
 
 const createShow = async (req, res) => {
   try {
@@ -106,15 +107,28 @@ const getAllTheatersByMovie = async (req, res) => {
 
 const updateShow = async (req, res) => {
   try {
+    const show = await Show.findById(req.params.id);
+    if (!show) {
+      return res
+        .status(404)
+        .json({ status: "error", message: "Show not found" });
+    }
+
+    if (req.userRole !== "admin") {
+      const ownsTheater = await Theater.exists({
+        _id: show.theater,
+        owner: req.userId,
+      });
+      if (!ownsTheater) {
+        return res
+          .status(403)
+          .json({ status: "error", message: "Forbidden: not your show" });
+      }
+    }
+
     const updatedShow = await Show.findByIdAndUpdate(req.params.id, req.body, {
       returnDocument: "after",
     });
-    if (!updatedShow) {
-      return res.status(404).json({
-        status: "error",
-        message: "Show not found",
-      });
-    }
     res.status(200).json({
       status: "success",
       message: "Show updated successfully",
@@ -131,13 +145,26 @@ const updateShow = async (req, res) => {
 
 const deleteShow = async (req, res) => {
   try {
-    const deletedShow = await Show.findByIdAndDelete(req.params.id);
-    if (!deletedShow) {
-      return res.status(404).json({
-        status: "error",
-        message: "Show not found",
-      });
+    const show = await Show.findById(req.params.id);
+    if (!show) {
+      return res
+        .status(404)
+        .json({ status: "error", message: "Show not found" });
     }
+
+    if (req.userRole !== "admin") {
+      const ownsTheater = await Theater.exists({
+        _id: show.theater,
+        owner: req.userId,
+      });
+      if (!ownsTheater) {
+        return res
+          .status(403)
+          .json({ status: "error", message: "Forbidden: not your show" });
+      }
+    }
+
+    await show.deleteOne();
     res.status(200).json({
       status: "success",
       message: "Show deleted successfully",

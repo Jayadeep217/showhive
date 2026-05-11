@@ -31,3 +31,5 @@ export const DELETE_SHOW_URL = (id) => `/shows/delete/${id}`;
 
 export const CREATE_BOOKING_URL = "/bookings/create";
 export const GET_USER_BOOKINGS_URL = "/bookings/user";
+export const CREATE_ORDER_URL = "/bookings/create-order";
+export const VERIFY_PAYMENT_URL = "/bookings/verify-payment";

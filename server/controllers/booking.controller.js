@@ -8,18 +8,19 @@ const createBooking = async (req, res) => {
     const { showId, seats } = req.body;
     const userId = req.userId;
 
-    const show = await Show.findById(showId);
+    // Atomically claim the seats — fails if any seat is already taken
+    const show = await Show.findOneAndUpdate(
+      { _id: showId, bookedSeats: { $not: { $elemMatch: { $in: seats } } } },
+      { $push: { bookedSeats: { $each: seats } } },
+      { returnDocument: "after" },
+    );
     if (!show) {
-      return res
-        .status(404)
-        .json({ status: "error", message: "Show not found" });
-    }
-
-    const conflict = seats.some((seat) => show.bookedSeats.includes(seat));
-    if (conflict) {
-      return res
-        .status(400)
-        .json({ status: "error", message: "Some seats are already booked" });
+      // Either show doesn't exist or seats were already booked
+      const exists = await Show.exists({ _id: showId });
+      return res.status(exists ? 400 : 404).json({
+        status: "error",
+        message: exists ? "Some seats are already booked" : "Show not found",
+      });
     }
 
     const totalAmount = seats.length * show.ticketPrice;
@@ -31,22 +32,26 @@ const createBooking = async (req, res) => {
     });
     await booking.save();
 
-    show.bookedSeats.push(...seats);
-    await show.save();
-
     const populated = await booking.populate({
       path: "show",
       populate: [{ path: "movie" }, { path: "theater" }],
     });
 
-    res.status(201).json({ status: "success", message: "Booking confirmed", booking: populated });
+    res.status(201).json({
+      status: "success",
+      message: "Booking confirmed",
+      booking: populated,
+    });
 
     // Send confirmation email — non-blocking, failure doesn't affect the booking
-    User.findById(userId).select("name email").then((user) => {
-      if (user) sendBookingConfirmation(user, booking, populated.show).catch((err) =>
-        console.error("Booking email error:", err.message),
-      );
-    });
+    User.findById(userId)
+      .select("name email")
+      .then((user) => {
+        if (user)
+          sendBookingConfirmation(user, booking, populated.show).catch((err) =>
+            console.error("Booking email error:", err.message),
+          );
+      });
   } catch (error) {
     res.status(500).json({
       status: "error",

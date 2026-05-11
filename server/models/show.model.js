@@ -6,7 +6,7 @@ const showSchema = new mongoose.Schema(
     date: { type: Date, required: true },
     time: { type: String, required: true },
     totalSeats: { type: Number, required: true },
-    bookedSeats: { type: Array, default: [] },
+    bookedSeats: { type: [String], default: [] },
     ticketPrice: { type: Number, required: true },
     movie: {
       type: mongoose.Schema.Types.ObjectId,

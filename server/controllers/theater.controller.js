@@ -77,15 +77,19 @@ const getTheaterById = async (req, res) => {
 
 const updateTheater = async (req, res) => {
   try {
-    const updatedTheater = await Theater.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { returnDocument: "after" },
-    );
+    const filter =
+      req.userRole === "admin"
+        ? { _id: req.params.id }
+        : { _id: req.params.id, owner: req.userId };
+
+    const updatedTheater = await Theater.findOneAndUpdate(filter, req.body, {
+      returnDocument: "after",
+    });
     if (!updatedTheater) {
-      return res.status(404).json({
+      const exists = await Theater.exists({ _id: req.params.id });
+      return res.status(exists ? 403 : 404).json({
         status: "error",
-        message: "Theater not found",
+        message: exists ? "Forbidden: not your theater" : "Theater not found",
       });
     }
     res.status(200).json({
@@ -104,11 +108,17 @@ const updateTheater = async (req, res) => {
 
 const deleteTheater = async (req, res) => {
   try {
-    const deletedTheater = await Theater.findByIdAndDelete(req.params.id);
+    const filter =
+      req.userRole === "admin"
+        ? { _id: req.params.id }
+        : { _id: req.params.id, owner: req.userId };
+
+    const deletedTheater = await Theater.findOneAndDelete(filter);
     if (!deletedTheater) {
-      return res.status(404).json({
+      const exists = await Theater.exists({ _id: req.params.id });
+      return res.status(exists ? 403 : 404).json({
         status: "error",
-        message: "Theater not found",
+        message: exists ? "Forbidden: not your theater" : "Theater not found",
       });
     }
     res.status(200).json({

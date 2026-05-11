@@ -19,6 +19,8 @@ const bookingSchema = new mongoose.Schema(
       enum: ["confirmed", "cancelled"],
       default: "confirmed",
     },
+    paymentId: { type: String, default: null },
+    orderId: { type: String, default: null },
   },
   { timestamps: true },
 );
