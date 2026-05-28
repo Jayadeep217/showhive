@@ -198,6 +198,47 @@ const updatePassword = async (req, res) => {
   }
 };
 
+const getAllUsers = async (req, res) => {
+  try {
+    const users = await User.find()
+      .select("-password -otp -otpExpiry")
+      .sort({ createdAt: -1 });
+    res.status(200).json({ status: "success", users });
+  } catch (error) {
+    res.status(500).json({
+      status: "error",
+      message: "Error retrieving users",
+      error: error.message,
+    });
+  }
+};
+
+const updateUserRole = async (req, res) => {
+  try {
+    const { role } = req.body;
+    if (!["user", "partner", "admin"].includes(role)) {
+      return res.status(400).json({ status: "error", message: "Invalid role" });
+    }
+    const user = await User.findByIdAndUpdate(
+      req.params.id,
+      { role },
+      { new: true },
+    ).select("-password -otp -otpExpiry");
+    if (!user) {
+      return res
+        .status(404)
+        .json({ status: "error", message: "User not found" });
+    }
+    res.status(200).json({ status: "success", message: "Role updated", user });
+  } catch (error) {
+    res.status(500).json({
+      status: "error",
+      message: "Error updating role",
+      error: error.message,
+    });
+  }
+};
+
 module.exports = {
   registerUser,
   loginUser,
@@ -205,4 +246,6 @@ module.exports = {
   getUser,
   requestOtp,
   updatePassword,
+  getAllUsers,
+  updateUserRole,
 };

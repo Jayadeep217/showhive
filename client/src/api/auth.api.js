@@ -8,6 +8,8 @@ import {
   USER_URL,
   REQUEST_OTP_URL,
   UPDATE_PASSWORD_URL,
+  ALL_USERS_URL,
+  UPDATE_USER_ROLE_URL,
 } from "../config/api.config.js";
 
 const api = axios.create({
@@ -78,6 +80,26 @@ export const updatePassword = async (currentPassword, newPassword, otp) => {
     return response.data;
   } catch (error) {
     console.error("Update password error:", error);
+    throw error;
+  }
+};
+
+export const getAllUsers = async () => {
+  try {
+    const response = await api.get(ALL_USERS_URL);
+    return response.data;
+  } catch (error) {
+    console.error("Get all users error:", error);
+    throw error;
+  }
+};
+
+export const updateUserRole = async (id, role) => {
+  try {
+    const response = await api.put(UPDATE_USER_ROLE_URL(id), { role });
+    return response.data;
+  } catch (error) {
+    console.error("Update user role error:", error);
     throw error;
   }
 };

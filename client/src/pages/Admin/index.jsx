@@ -2,6 +2,7 @@ import React from "react";
 import { Tabs, Typography } from "antd";
 import TheaterList from "./TheaterManagement.jsx";
 import MovieManagement from "./MovieManagement.jsx";
+import UserManagement from "../Users/index.jsx";
 import AppLayout from "../../components/AppLayout.jsx";
 
 const { Title } = Typography;
@@ -17,6 +18,11 @@ function Admin() {
       key: "2",
       label: "Theater Management",
       children: <TheaterList />,
+    },
+    {
+      key: "3",
+      label: "Users",
+      children: <UserManagement />,
     },
   ];
   return (

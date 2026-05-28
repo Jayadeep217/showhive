@@ -6,6 +6,8 @@ export const LOGOUT_URL = "/auth/logout";
 export const USER_URL = "/auth/user";
 export const REQUEST_OTP_URL = "/auth/otp/request";
 export const UPDATE_PASSWORD_URL = "/auth/password";
+export const ALL_USERS_URL = "/auth/all";
+export const UPDATE_USER_ROLE_URL = (id) => `/auth/${id}/role`;
 
 export const ALL_MOVIES_URL = "/movies/all";
 export const ADD_MOVIE_URL = "/movies/create";

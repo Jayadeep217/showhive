@@ -3,7 +3,7 @@ showhive.movies.json
 showhive.shows.json
 showhive.users.json
 showhive.theaters.json
-generate_report_pdf.js
+generate_report.py
 ShowHive_Project_Report.*
 Scaler Neovarsity _ Academy Project Report Template (Fullstack Specialization).docx
 test_cards
